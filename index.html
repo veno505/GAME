@@ -770,7 +770,10 @@
             </div>
 
             <!-- Room Host End Match Actions -->
-            <div id="host-actions" class="p-3 shrink-0 hidden flex justify-center z-20">
+            <div id="host-actions" class="p-3 shrink-0 hidden flex justify-center gap-3 z-20">
+                <button onclick="playAgain()" class="glass-panel text-cyber-cyan border-cyber-cyan px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-widest hover:bg-cyber-cyan/10 transition active:scale-95 shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+                    <i class="fas fa-redo mr-1.5"></i> PLAY AGAIN
+                </button>
                 <button onclick="backToLobby()" class="glass-panel text-gray-300 border-gray-600 px-5 py-2.5 rounded-xl font-mono text-xs uppercase tracking-widest hover:text-cyber-pink hover:border-cyber-pink transition active:scale-95">
                     <i class="fas fa-stop mr-1.5"></i> RETURN TO LOBBY
                 </button>
@@ -1611,6 +1614,12 @@
             });
         };
 
+        window.playAgain = async () => {
+            AudioEngine.playClick();
+            if (!isHost || !roomData) return;
+            startGame(roomData.currentGame);
+        };
+
         window.backToLobby = async () => {
             AudioEngine.playClick();
             if (!isHost) return;
@@ -2079,8 +2088,9 @@
                 const isFlipped = state.flipped.includes(i) || state.matched.includes(i);
                 
                 card.className = `flip-card h-16 rounded-2xl glass-card flex items-center justify-center text-2xl font-bold cursor-pointer transition-all ${isFlipped ? 'flipped border-cyber-cyan bg-cyber-cyan/10' : 'hover:border-cyber-cyan'}`;
-                card.innerHTML = `<div class="flip-card-inner w-full h-full flex items-center justify-center">
-                    <div class="flip-card-front">${isFlipped ? icon : '❓'}</div>
+                card.innerHTML = `<div class="flip-card-inner w-full h-full relative">
+                    <div class="flip-card-front w-full h-full absolute flex items-center justify-center text-3xl">❓</div>
+                    <div class="flip-card-back w-full h-full absolute flex items-center justify-center text-3xl">${icon}</div>
                 </div>`;
                 card.onclick = () => flipMemoryCard(i);
                 board.appendChild(card);
