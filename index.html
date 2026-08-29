@@ -519,6 +519,13 @@
                 </button>
             </div>
 
+            <!-- Ready Button Moved Below Room Code -->
+            <div id="ready-container" class="px-4 w-full max-w-lg mx-auto shrink-0 z-10 hidden mt-2">
+                <button id="btn-ready" onclick="toggleReady()" class="glass-panel border-cyber-cyan text-cyber-cyan w-full py-3 rounded-2xl font-heading font-extrabold tracking-widest uppercase transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+                    <i class="fas fa-check-circle"></i> MARK AS READY
+                </button>
+            </div>
+
             <!-- Player Match Header Info -->
             <div class="flex justify-between items-center px-4 py-3 shrink-0 max-w-lg mx-auto w-full relative z-10">
                 <!-- Player 1 -->
@@ -569,10 +576,6 @@
                         <span class="font-mono text-cyber-cyan text-xs tracking-widest uppercase">Arena Protocol</span>
                         <p class="text-gray-400 text-xs">Tekan READY untuk membuka pilihan game!</p>
                     </div>
-                    
-                    <button id="btn-ready" onclick="toggleReady()" class="glass-panel border-cyber-cyan text-cyber-cyan w-full py-3.5 rounded-2xl font-heading font-extrabold tracking-widest uppercase transition-all flex items-center justify-center gap-2">
-                        <i class="fas fa-check-circle"></i> MARK AS READY
-                    </button>
 
                     <div id="host-game-list" class="flex flex-col gap-2.5 opacity-50 pointer-events-none transition-all duration-300">
                         <!-- 1. Rock Paper Scissors -->
@@ -1385,6 +1388,7 @@
             showScreen('screen-room');
             
             document.getElementById('game-selector').classList.remove('hidden');
+            document.getElementById('ready-container').classList.remove('hidden');
             document.getElementById('game-rps').classList.add('hidden');
             document.getElementById('game-dice').classList.add('hidden');
             document.getElementById('game-ttt').classList.add('hidden');
@@ -1456,12 +1460,14 @@
             renderChat(data.chat || []);
 
             // Hide games
-            ['game-selector', 'game-rps', 'game-dice', 'game-ttt', 'game-speed', 'game-memory', 'game-uno', 'host-actions'].forEach(id => {
-                document.getElementById(id).classList.add('hidden');
+            ['game-selector', 'ready-container', 'game-rps', 'game-dice', 'game-ttt', 'game-speed', 'game-memory', 'game-uno', 'host-actions'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
             });
 
             if (data.currentGame === 'lobby') {
                 document.getElementById('game-selector').classList.remove('hidden');
+                document.getElementById('ready-container').classList.remove('hidden');
                 
                 const btnReady = document.getElementById('btn-ready');
                 if (me && me.isReady) {
