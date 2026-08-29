@@ -1505,6 +1505,9 @@
                 if (data.currentGame === 'rps') {
                     document.getElementById('game-rps').classList.remove('hidden');
                     updateRPSUI(data.gameState, isP1);
+                    if (isHost && data.gameState.phase === 'choosing' && data.gameState.p1Choice && data.gameState.p2Choice) {
+                        checkRPSResult();
+                    }
                 } else if (data.currentGame === 'dice') {
                     document.getElementById('game-dice').classList.remove('hidden');
                     updateDiceUI(data.gameState, isP1);
@@ -1514,7 +1517,7 @@
                 } else if (data.currentGame === 'speed') {
                     document.getElementById('game-speed').classList.remove('hidden');
                     updateSpeedUI(data.gameState, isP1);
-                    if (isHost && data.gameState.state === 'ready' && data.gameState.p1Ms && data.gameState.p2Ms) {
+                    if (isHost && data.gameState.state === 'ready' && (data.gameState.p1Ms || data.gameState.p2Ms)) {
                         checkSpeedResult();
                     }
                 } else if (data.currentGame === 'memory') {
@@ -1528,7 +1531,7 @@
         };
 
         const syncRoomState = async (updateFields) => {
-            if (isBotMode) {
+            if (roomData) {
                 for (const key in updateFields) {
                     const keys = key.split('.');
                     let current = roomData;
@@ -1539,12 +1542,14 @@
                     current[keys[keys.length - 1]] = updateFields[key];
                 }
                 updateRoomUI(roomData);
-                return;
             }
+            
+            if (isBotMode) return;
+
             if (currentRoomId && db) {
                 try {
                     const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'rooms', currentRoomId);
-                    await updateDoc(roomRef, updateFields);
+                    updateDoc(roomRef, updateFields).catch(e => console.error(e));
                 } catch(e){}
             }
         };
@@ -1962,10 +1967,12 @@
                 return;
             }
             if (state.state === 'ready') {
-                const reactionTime = Date.now() - state.startTime;
+                const field = isP1 ? 'gameState.p1Ms' : 'gameState.p2Ms';
+                if ((isP1 && state.p1Ms) || (!isP1 && state.p2Ms)) return; // Prevent double tap
+
+                const reactionTime = window.localSpeedStartTime ? (Date.now() - window.localSpeedStartTime) : (Date.now() - state.startTime);
                 AudioEngine.playSelect();
 
-                const field = isP1 ? 'gameState.p1Ms' : 'gameState.p2Ms';
                 if(isBotMode) roomData.gameState[isP1 ? 'p1Ms' : 'p2Ms'] = reactionTime;
                 await syncRoomState({ [field]: reactionTime });
 
@@ -1983,8 +1990,11 @@
         const checkSpeedResult = async () => {
             if (!isHost) return;
             const state = roomData.gameState;
-            if (state.p1Ms && state.p2Ms) {
-                let winner = state.p1Ms < state.p2Ms ? 'p1' : 'p2';
+            if (state.p1Ms || state.p2Ms) {
+                let winner;
+                if (state.p1Ms && !state.p2Ms) winner = 'p1';
+                else if (!state.p1Ms && state.p2Ms) winner = 'p2';
+                else winner = state.p1Ms <= state.p2Ms ? 'p1' : 'p2';
                 let resultText = winner === 'p1' ? 'P1 TERCEPAT!' : 'P2 TERCEPAT!';
 
                 let p1Score = roomData.p1.score;
@@ -2013,7 +2023,9 @@
             if (state.state === 'waiting') {
                 speedBox.className = "w-full h-56 rounded-3xl glass-panel border-2 border-cyber-pink/40 flex flex-col items-center justify-center p-6 text-center cursor-pointer transition-all bg-cyber-pink/10";
                 speedPrompt.innerText = "SIAP-SIAP...";
+                window.localSpeedStartTime = null;
             } else if (state.state === 'ready') {
+                if (!window.localSpeedStartTime) window.localSpeedStartTime = Date.now();
                 speedBox.className = "w-full h-56 rounded-3xl glass-panel border-2 border-cyber-green flex flex-col items-center justify-center p-6 text-center cursor-pointer transition-all bg-cyber-green/20 animate-pulse";
                 speedPrompt.innerText = "TAP SEKARANG!! ⚡";
             } else if (state.state === 'finished') {
@@ -2043,7 +2055,12 @@
                     const newMatched = [...state.matched, idx1, idx2];
                     let p1Score = state.p1Score + (state.turn === 'p1' ? 1 : 0);
                     let p2Score = state.p2Score + (state.turn === 'p2' ? 1 : 0);
-                    let winner = newMatched.length === state.deck.length ? (p1Score > p2Score ? 'p1' : 'p2') : null;
+                    let winner = newMatched.length === state.deck.length ? (p1Score > p2Score ? 'p1' : (p2Score > p1Score ? 'p2' : 'draw')) : null;
+
+                    let globalP1 = roomData.p1.score;
+                    let globalP2 = roomData.p2.score;
+                    if (winner === 'p1') { globalP1++; if(currentUser.uid === roomData.p1.uid) addXP(50); }
+                    if (winner === 'p2') { globalP2++; if(currentUser.uid === roomData.p2.uid) addXP(50); }
 
                     setTimeout(async () => {
                         await syncRoomState({
@@ -2051,7 +2068,8 @@
                             'gameState.flipped': [],
                             'gameState.p1Score': p1Score,
                             'gameState.p2Score': p2Score,
-                            'gameState.winner': winner
+                            'gameState.winner': winner,
+                            ...(winner ? { 'p1.score': globalP1, 'p2.score': globalP2 } : {})
                         });
                     }, 500);
                 } else {
