@@ -253,6 +253,47 @@
             width: 100%;
             height: 100%;
         }
+        /* UNO Cards */
+        .uno-card {
+            width: 60px;
+            height: 90px;
+            border-radius: 8px;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.2);
+            user-select: none;
+        }
+        .uno-card-red { background: linear-gradient(135deg, #ef4444, #991b1b); }
+        .uno-card-blue { background: linear-gradient(135deg, #3b82f6, #1e3a8a); }
+        .uno-card-green { background: linear-gradient(135deg, #22c55e, #14532d); }
+        .uno-card-yellow { background: linear-gradient(135deg, #eab308, #713f12); }
+        .uno-card-wild { background: linear-gradient(135deg, #1f2937, #000000); }
+        
+        .uno-card .corner {
+            font-size: 10px;
+            font-weight: bold;
+            position: absolute;
+            color: white;
+            text-shadow: 1px 1px 0 #000;
+        }
+        .uno-card .corner.tl { top: 4px; left: 4px; }
+        .uno-card .corner.br { bottom: 4px; right: 4px; transform: rotate(180deg); }
+        .uno-card .center {
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            line-height: 1;
+        }
+        .uno-card.deck-card {
+            background: linear-gradient(135deg, #111, #333);
+            border-color: #f472b6;
+        }
     </style>
 </head>
 <body class="font-sans antialiased text-gray-100 flex flex-col justify-between">
@@ -578,6 +619,15 @@
                                 <p class="text-xs text-gray-400 font-mono">Ingatan Pasangan Kartu</p>
                             </div>
                         </button>
+
+                        <!-- 6. Cyber UNO -->
+                        <button onclick="startGame('uno')" class="glass-card p-3.5 rounded-2xl flex items-center gap-3 hover:border-cyber-pink transition text-left group">
+                            <div class="text-2xl bg-dark-base p-2.5 rounded-xl border border-white/10 group-hover:border-cyber-pink">🎴</div>
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-white">Cyber UNO Duel</h4>
+                                <p class="text-xs text-gray-400 font-mono">Pertarungan Kartu Warna-warni</p>
+                            </div>
+                        </button>
                     </div>
                 </div>
 
@@ -664,6 +714,53 @@
 
                     <div class="grid grid-cols-4 gap-2 w-full max-w-[290px]" id="memory-board">
                         <!-- Cards generated via JS -->
+                    </div>
+                </div>
+
+                <!-- GAME 6: CYBER UNO -->
+                <div id="game-uno" class="w-full hidden flex-col items-center relative" style="height: calc(100vh - 280px); min-height: 380px;">
+                    <div class="glass-panel px-4 py-1 rounded-full border-cyber-pink mb-2 shrink-0">
+                        <h3 class="text-xs font-mono tracking-widest text-cyber-pink uppercase">Cyber UNO Duel</h3>
+                    </div>
+                    
+                    <!-- Opponent Status -->
+                    <div class="w-full flex justify-between items-center px-2 mb-2 shrink-0">
+                        <div class="text-xs font-mono text-gray-400">P2 Cards: <span id="uno-p2-count" class="text-white font-bold">7</span></div>
+                        <p id="uno-status" class="font-mono text-[10px] uppercase tracking-widest text-center px-2 py-0.5 rounded-md bg-white/5 border border-white/10">Giliranmu</p>
+                    </div>
+
+                    <!-- Center Board -->
+                    <div class="flex justify-center items-center gap-6 mb-2 shrink-0">
+                        <!-- Draw Pile -->
+                        <button onclick="drawUnoCard()" class="uno-card deck-card flex justify-center items-center text-cyber-pink shadow-lg hover:scale-105 transition-transform" id="uno-draw-btn">
+                            <span class="font-heading font-black italic text-xl">UNO</span>
+                        </button>
+                        
+                        <!-- Discard Pile -->
+                        <div id="uno-discard" class="uno-card shadow-2xl transition-all">
+                            <!-- Card rendering -->
+                        </div>
+                    </div>
+                    
+                    <!-- Color Indicator -->
+                    <div id="uno-color-indicator" class="w-6 h-6 rounded-full shadow-lg mb-2 hidden border-2 border-white shrink-0"></div>
+
+                    <!-- My Hand -->
+                    <div class="w-full flex-grow flex flex-col justify-end overflow-hidden pb-1">
+                        <div id="uno-hand" class="flex flex-wrap justify-center gap-1.5 overflow-y-auto max-h-[140px] p-1 pb-2 scroll-smooth">
+                            <!-- Cards rendering -->
+                        </div>
+                    </div>
+                    
+                    <!-- Color Picker Modal -->
+                    <div id="uno-color-picker" class="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex-col items-center justify-center p-4 rounded-3xl">
+                        <h4 class="font-heading text-white mb-4 text-sm uppercase tracking-widest">Pilih Warna Wild</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="setUnoColor('red')" class="w-16 h-16 rounded-xl bg-red-500 hover:scale-110 transition shadow-[0_0_15px_rgba(239,68,68,0.5)]"></button>
+                            <button onclick="setUnoColor('blue')" class="w-16 h-16 rounded-xl bg-blue-500 hover:scale-110 transition shadow-[0_0_15px_rgba(59,130,246,0.5)]"></button>
+                            <button onclick="setUnoColor('green')" class="w-16 h-16 rounded-xl bg-green-500 hover:scale-110 transition shadow-[0_0_15px_rgba(34,197,94,0.5)]"></button>
+                            <button onclick="setUnoColor('yellow')" class="w-16 h-16 rounded-xl bg-yellow-500 hover:scale-110 transition shadow-[0_0_15px_rgba(234,179,8,0.5)]"></button>
+                        </div>
                     </div>
                 </div>
 
@@ -941,9 +1038,16 @@
 
         // --- 3. FIREBASE SETUP & HYBRID LOCAL NETWORK ---
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'arcade-hub-pro-v2';
-        let firebaseConfig;
-        try { firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null; } 
-        catch (e) { firebaseConfig = null; }
+        let firebaseConfig = {
+            apiKey: "AIzaSyCOy-KuX61XSwPLGNRk5l7Fok0F-__Nw7U",
+            authDomain: "game-v-7a28e.firebaseapp.com",
+            databaseURL: "https://game-v-7a28e-default-rtdb.firebaseio.com",
+            projectId: "game-v-7a28e",
+            storageBucket: "game-v-7a28e.firebasestorage.app",
+            messagingSenderId: "922061484807",
+            appId: "1:922061484807:web:2f0a350d347f101aeacba2",
+            measurementId: "G-CDJ255BSMQ"
+        };
 
         let app = null, auth = null, db = null;
         try {
@@ -1188,10 +1292,15 @@
                 listenToRoom(code);
                 showToast(`Session ${code} Created`, "success");
             } catch (e) {
-                console.log("Firebase fallback mock create", e);
-                roomData = newRoomData;
-                enterRoomUI(code);
-                updateRoomUI(roomData);
+                console.error("Firebase create room error:", e);
+                if (e.message && e.message.includes("permission")) {
+                    showToast("Error Firebase: Akses ditolak! Cek Firestore Rules.", "error");
+                } else {
+                    showToast("Fallback to offline mode", "warning");
+                    roomData = newRoomData;
+                    enterRoomUI(code);
+                    updateRoomUI(roomData);
+                }
             }
         };
 
@@ -1229,7 +1338,12 @@
                 enterRoomUI(codeInput);
                 listenToRoom(codeInput);
             } catch (e) {
-                showToast("Gagal Terhubung ke Room", "error");
+                console.error("Firebase join room error:", e);
+                if (e.message && e.message.includes("permission")) {
+                    showToast("Error Firebase: Akses ditolak! Cek Firestore Rules.", "error");
+                } else {
+                    showToast("Gagal Terhubung ke Room: " + e.message, "error");
+                }
             }
         };
 
@@ -1340,7 +1454,7 @@
             renderChat(data.chat || []);
 
             // Hide games
-            ['game-selector', 'game-rps', 'game-dice', 'game-ttt', 'game-speed', 'game-memory', 'host-actions'].forEach(id => {
+            ['game-selector', 'game-rps', 'game-dice', 'game-ttt', 'game-speed', 'game-memory', 'game-uno', 'host-actions'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
 
@@ -1389,6 +1503,9 @@
                 } else if (data.currentGame === 'memory') {
                     document.getElementById('game-memory').classList.remove('hidden');
                     updateMemoryUI(data.gameState, isP1);
+                } else if (data.currentGame === 'uno') {
+                    document.getElementById('game-uno').classList.remove('hidden');
+                    updateUnoUI(data.gameState, isP1);
                 }
             }
         };
@@ -1434,8 +1551,39 @@
                 const deck = [...icons, ...icons].sort(() => Math.random() - 0.5);
                 initialGameState = { deck: deck, flipped: [], matched: [], p1Score: 0, p2Score: 0, turn: 'p1', winner: null };
             }
+            else if (gameId === 'uno') {
+                const colors = ['red', 'blue', 'green', 'yellow'];
+                const deck = [];
+                colors.forEach(c => {
+                    deck.push({ color: c, value: '0', type: 'number', id: c+'0' });
+                    for(let i=1; i<=9; i++) {
+                        deck.push({ color: c, value: i.toString(), type: 'number', id: c+i+'a' });
+                        deck.push({ color: c, value: i.toString(), type: 'number', id: c+i+'b' });
+                    }
+                    for(let i=0; i<2; i++) {
+                        deck.push({ color: c, value: 'Skip', type: 'action', id: c+'S'+i });
+                        deck.push({ color: c, value: 'Reverse', type: 'action', id: c+'R'+i });
+                        deck.push({ color: c, value: '+2', type: 'action', id: c+'D2'+i });
+                    }
+                });
+                for(let i=0; i<4; i++) {
+                    deck.push({ color: 'wild', value: 'Wild', type: 'wild', id: 'W'+i });
+                    deck.push({ color: 'wild', value: '+4', type: 'wild', id: 'WD4'+i });
+                }
+                deck.sort(() => Math.random() - 0.5);
+                
+                const p1Hand = deck.splice(0, 7);
+                const p2Hand = deck.splice(0, 7);
+                let firstCard = deck.pop();
+                while(firstCard.type === 'wild' || firstCard.type === 'action') {
+                    deck.unshift(firstCard);
+                    firstCard = deck.pop();
+                }
+                
+                initialGameState = { deck: deck, discardPile: [firstCard], p1Hand: p1Hand, p2Hand: p2Hand, turn: 'p1', currentColor: firstCard.color, winner: null };
+            }
 
-            const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match' };
+            const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match', 'uno': 'Cyber UNO' };
             let currentChat = roomData.chat || [];
             currentChat.push({ type: 'system', msg: `Game [${gameNames[gameId]}] Dimulai!`, time: Date.now() });
 
@@ -1924,6 +2072,232 @@
             const statusTxt = document.getElementById('memory-status');
             const myTurn = (state.turn === 'p1' && isP1) || (state.turn === 'p2' && !isP1);
             statusTxt.innerText = state.winner ? `WINNER: ${state.winner.toUpperCase()}` : (myTurn ? "GILIRAN KAMU MEMBALIK KARTU" : "GILIRAN LAWAN...");
+        };
+
+        // --- 12.5 GAME 6: UNO LOGIC ---
+        const updateUnoUI = (state, isP1) => {
+            const p2Count = document.getElementById('uno-p2-count');
+            const statusTxt = document.getElementById('uno-status');
+            const handContainer = document.getElementById('uno-hand');
+            const discard = document.getElementById('uno-discard');
+            const colorIndicator = document.getElementById('uno-color-indicator');
+            
+            p2Count.innerText = isP1 ? state.p2Hand.length : state.p1Hand.length;
+            
+            const myTurn = (state.turn === 'p1' && isP1) || (state.turn === 'p2' && !isP1);
+            statusTxt.innerText = state.winner ? `WINNER: ${state.winner.toUpperCase()}` : (myTurn ? "GILIRAN KAMU" : "GILIRAN LAWAN...");
+            
+            // Render discard pile
+            const topCard = state.discardPile[state.discardPile.length - 1];
+            discard.className = `uno-card shadow-2xl transition-all uno-card-${topCard.color}`;
+            let displayVal = topCard.value;
+            if(displayVal === '+2' || displayVal === '+4' || displayVal === 'Skip' || displayVal === 'Reverse') {
+                if(displayVal === '+4' || displayVal === '+2') displayVal = displayVal;
+                else if(displayVal === 'Skip') displayVal = '⊘';
+                else if(displayVal === 'Reverse') displayVal = '⇌';
+            }
+            discard.innerHTML = `
+                <div class="corner tl">${displayVal}</div>
+                <div class="center">${displayVal}</div>
+                <div class="corner br">${displayVal}</div>
+            `;
+            
+            if(state.currentColor && topCard.color === 'wild') {
+                colorIndicator.classList.remove('hidden');
+                colorIndicator.className = `w-6 h-6 rounded-full shadow-lg mb-2 border-2 border-white shrink-0 bg-${state.currentColor}-500`;
+            } else {
+                colorIndicator.classList.add('hidden');
+            }
+
+            // Render hand
+            handContainer.innerHTML = '';
+            const myHand = isP1 ? state.p1Hand : state.p2Hand;
+            myHand.forEach(card => {
+                const cDiv = document.createElement('div');
+                cDiv.className = `uno-card uno-card-${card.color} shadow-md hover:-translate-y-2 hover:shadow-xl transition-all`;
+                
+                let val = card.value;
+                if(val === 'Skip') val = '⊘';
+                if(val === 'Reverse') val = '⇌';
+
+                cDiv.innerHTML = `
+                    <div class="corner tl">${val}</div>
+                    <div class="center text-lg">${val}</div>
+                    <div class="corner br">${val}</div>
+                `;
+                cDiv.onclick = () => {
+                    if(myTurn && !state.winner) playUnoCard(card.id);
+                };
+                handContainer.appendChild(cDiv);
+            });
+        };
+
+        window.playUnoCard = async (cardId) => {
+            AudioEngine.playClick();
+            if (!roomData) return;
+            let state = JSON.parse(JSON.stringify(roomData.gameState));
+            const isP1 = currentUser.uid === roomData.p1.uid;
+            const myHandField = isP1 ? 'p1Hand' : 'p2Hand';
+            const oppHandField = isP1 ? 'p2Hand' : 'p1Hand';
+            let myHand = state[myHandField];
+            
+            const cardIndex = myHand.findIndex(c => c.id === cardId);
+            if(cardIndex === -1) return;
+            const card = myHand[cardIndex];
+            const topCard = state.discardPile[state.discardPile.length - 1];
+
+            // Validation
+            const isValid = card.color === 'wild' || card.color === state.currentColor || card.value === topCard.value;
+            if(!isValid) {
+                showToast("Kartu tidak valid!", "error");
+                return;
+            }
+
+            // Play card
+            myHand.splice(cardIndex, 1);
+            state.discardPile.push(card);
+            state.currentColor = card.color;
+            
+            if(myHand.length === 1) {
+                AudioEngine.playWin(); // UNO SHOUT
+                showToast("UNO!!", "success");
+            }
+            if(myHand.length === 0) {
+                state.winner = isP1 ? 'p1' : 'p2';
+            }
+
+            // Handle Action cards
+            let nextTurn = state.turn === 'p1' ? 'p2' : 'p1';
+            let cardsToDraw = 0;
+            if(card.value === 'Skip' || card.value === 'Reverse') {
+                nextTurn = state.turn; // 1v1 reverse is skip
+            } else if(card.value === '+2') {
+                cardsToDraw = 2;
+                nextTurn = state.turn;
+            } else if(card.value === '+4') {
+                cardsToDraw = 4;
+                nextTurn = state.turn;
+            }
+
+            if(cardsToDraw > 0) {
+                const drawn = state.deck.splice(0, cardsToDraw);
+                state[oppHandField].push(...drawn);
+                if(state.deck.length < 5) {
+                    const oldDiscard = state.discardPile.splice(0, state.discardPile.length - 1);
+                    state.deck.push(...oldDiscard.sort(() => Math.random() - 0.5));
+                }
+            }
+
+            if(card.color === 'wild') {
+                document.getElementById('uno-color-picker').classList.remove('hidden');
+                document.getElementById('uno-color-picker').classList.add('flex');
+                // Store intermediate state waiting for color
+                window._pendingUnoState = state;
+                window._pendingNextTurn = nextTurn;
+                return;
+            }
+
+            state.turn = nextTurn;
+            finishUnoMove(state);
+        };
+
+        window.setUnoColor = (color) => {
+            AudioEngine.playSelect();
+            document.getElementById('uno-color-picker').classList.add('hidden');
+            document.getElementById('uno-color-picker').classList.remove('flex');
+            let state = window._pendingUnoState;
+            state.currentColor = color;
+            state.turn = window._pendingNextTurn;
+            finishUnoMove(state);
+        };
+
+        window.drawUnoCard = async () => {
+            AudioEngine.playClick();
+            if (!roomData) return;
+            let state = JSON.parse(JSON.stringify(roomData.gameState));
+            const isP1 = currentUser.uid === roomData.p1.uid;
+            if((isP1 && state.turn !== 'p1') || (!isP1 && state.turn !== 'p2')) return;
+            if(state.winner) return;
+
+            const myHandField = isP1 ? 'p1Hand' : 'p2Hand';
+            const drawn = state.deck.splice(0, 1);
+            state[myHandField].push(...drawn);
+            
+            if(state.deck.length < 5) {
+                const oldDiscard = state.discardPile.splice(0, state.discardPile.length - 1);
+                state.deck.push(...oldDiscard.sort(() => Math.random() - 0.5));
+            }
+
+            state.turn = state.turn === 'p1' ? 'p2' : 'p1';
+            finishUnoMove(state);
+        };
+
+        const finishUnoMove = async (state) => {
+            if (isBotMode) {
+                roomData.gameState = state;
+                updateRoomUI(roomData);
+                if (state.turn === 'p2' && !state.winner) {
+                    setTimeout(() => botUnoTurn(), 1200);
+                }
+                return;
+            }
+            await syncRoomState({ gameState: state });
+        };
+
+        const botUnoTurn = () => {
+            let state = JSON.parse(JSON.stringify(roomData.gameState));
+            if(state.winner) return;
+
+            let myHand = state.p2Hand;
+            const topCard = state.discardPile[state.discardPile.length - 1];
+            
+            // Find valid cards
+            const validCards = myHand.filter(c => c.color === 'wild' || c.color === state.currentColor || c.value === topCard.value);
+            
+            if(validCards.length > 0) {
+                // Play first valid card (could make it smarter based on difficulty)
+                const cardToPlay = validCards[0];
+                const cardIndex = myHand.findIndex(c => c.id === cardToPlay.id);
+                
+                myHand.splice(cardIndex, 1);
+                state.discardPile.push(cardToPlay);
+                state.currentColor = cardToPlay.color;
+                
+                if(myHand.length === 1) AudioEngine.playWin();
+                if(myHand.length === 0) state.winner = 'p2';
+
+                let nextTurn = 'p1';
+                let cardsToDraw = 0;
+                if(cardToPlay.value === 'Skip' || cardToPlay.value === 'Reverse') nextTurn = 'p2';
+                else if(cardToPlay.value === '+2') { cardsToDraw = 2; nextTurn = 'p2'; }
+                else if(cardToPlay.value === '+4') { cardsToDraw = 4; nextTurn = 'p2'; }
+
+                if(cardsToDraw > 0) {
+                    const drawn = state.deck.splice(0, cardsToDraw);
+                    state.p1Hand.push(...drawn);
+                }
+
+                if(cardToPlay.color === 'wild') {
+                    // Bot picks color it has most of
+                    const colors = ['red', 'blue', 'green', 'yellow'];
+                    let colorCounts = {red:0, blue:0, green:0, yellow:0};
+                    myHand.forEach(c => { if(c.color !== 'wild') colorCounts[c.color]++; });
+                    let bestColor = 'red';
+                    let maxCount = -1;
+                    colors.forEach(c => { if(colorCounts[c] > maxCount) { maxCount = colorCounts[c]; bestColor = c; } });
+                    state.currentColor = bestColor;
+                }
+
+                state.turn = nextTurn;
+                AudioEngine.playClick();
+                finishUnoMove(state);
+            } else {
+                // Draw card
+                const drawn = state.deck.splice(0, 1);
+                state.p2Hand.push(...drawn);
+                state.turn = 'p1';
+                finishUnoMove(state);
+            }
         };
 
         // --- 13. EMOTES & CHAT COMMS ---
