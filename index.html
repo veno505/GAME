@@ -564,7 +564,7 @@
             <div class="flex-grow flex flex-col items-center justify-center p-3 relative w-full max-w-md mx-auto overflow-y-auto">
                 
                 <!-- LOBBY GAME SELECTOR -->
-                <div id="game-selector" class="w-full flex flex-col gap-3">
+                <div id="game-selector" class="w-full flex flex-col gap-3 pb-24">
                     <div class="text-center mb-1">
                         <span class="font-mono text-cyber-cyan text-xs tracking-widest uppercase">Arena Protocol</span>
                         <p class="text-gray-400 text-xs">Tekan READY untuk membuka pilihan game!</p>
@@ -1075,6 +1075,7 @@
         let isHost = false;
         let isBotMode = false;
         let botDifficulty = 'easy'; // easy, medium, hard
+        let lastChatTime = 0;
         let unsubscribeRoom = null;
         let isChatOpen = false;
 
@@ -1348,6 +1349,7 @@
         };
 
         window.leaveRoom = async () => {
+            lastChatTime = 0;
             if (unsubscribeRoom) { unsubscribeRoom(); unsubscribeRoom = null; }
             if (currentRoomId && !isBotMode && db) {
                 try {
@@ -1512,7 +1514,15 @@
 
         const syncRoomState = async (updateFields) => {
             if (isBotMode) {
-                Object.assign(roomData, updateFields);
+                for (const key in updateFields) {
+                    const keys = key.split('.');
+                    let current = roomData;
+                    for (let i = 0; i < keys.length - 1; i++) {
+                        if (current[keys[i]] === undefined) current[keys[i]] = {};
+                        current = current[keys[i]];
+                    }
+                    current[keys[keys.length - 1]] = updateFields[key];
+                }
                 updateRoomUI(roomData);
                 return;
             }
@@ -2392,6 +2402,20 @@
         const renderChat = (chats) => {
             const container = document.getElementById('chat-messages');
             container.innerHTML = '';
+
+            if (chats.length > 0) {
+                const lastMsg = chats[chats.length - 1];
+                if (lastChatTime !== 0 && lastMsg.time > lastChatTime && lastMsg.uid !== currentUser.uid && lastMsg.type !== 'system') {
+                    showToast(`💬 ${lastMsg.name}: ${lastMsg.msg.substring(0,25)}`, 'info');
+                    if (typeof isChatOpen !== 'undefined' && !isChatOpen) {
+                        const badge = document.getElementById('chat-badge');
+                        if (badge) badge.classList.remove('hidden');
+                    }
+                    if (typeof AudioEngine !== 'undefined') AudioEngine.playSelect();
+                }
+                lastChatTime = lastMsg.time;
+            }
+
             chats.forEach(c => {
                 const div = document.createElement('div');
                 if (c.type === 'system') {
