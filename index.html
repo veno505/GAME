@@ -1572,15 +1572,16 @@
                 }
                 deck.sort(() => Math.random() - 0.5);
                 
-                const p1Hand = deck.splice(0, 7);
-                const p2Hand = deck.splice(0, 7);
-                let firstCard = deck.pop();
-                while(firstCard.type === 'wild' || firstCard.type === 'action') {
-                    deck.unshift(firstCard);
-                    firstCard = deck.pop();
-                }
+                // UNO Initial Draw
+                const hand1 = deck.splice(0, 7);
+                const hand2 = deck.splice(0, 7);
+                const discardPile = deck.splice(0, 1);
                 
-                initialGameState = { deck: deck, discardPile: [firstCard], p1Hand: p1Hand, p2Hand: p2Hand, turn: 'p1', currentColor: firstCard.color, winner: null };
+                // Ensure starting card is not a wild card for simplicity, or just set currentColor
+                let startColor = discardPile[0].color;
+                if(startColor === 'wild') startColor = ['red','blue','green','yellow'][Math.floor(Math.random()*4)];
+
+                initialGameState = { deck: deck, discardPile: discardPile, p1Hand: hand1, p2Hand: hand2, turn: 'p1', winner: null, currentColor: startColor, scoreAdded: false };
             }
 
             const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match', 'uno': 'Cyber UNO' };
@@ -2233,15 +2234,30 @@
         };
 
         const finishUnoMove = async (state) => {
+            let p1Score = roomData.p1.score;
+            let p2Score = roomData.p2.score;
+            
+            if (state.winner && !state.scoreAdded) {
+                state.scoreAdded = true;
+                if (state.winner === 'p1') { p1Score++; if(currentUser.uid === roomData.p1.uid) addXP(50); }
+                if (state.winner === 'p2') { p2Score++; if(currentUser.uid === roomData.p2.uid) addXP(50); }
+            }
+
             if (isBotMode) {
                 roomData.gameState = state;
+                roomData.p1.score = p1Score;
+                roomData.p2.score = p2Score;
                 updateRoomUI(roomData);
                 if (state.turn === 'p2' && !state.winner) {
                     setTimeout(() => botUnoTurn(), 1200);
                 }
                 return;
             }
-            await syncRoomState({ gameState: state });
+            await syncRoomState({ 
+                gameState: state,
+                'p1.score': p1Score,
+                'p2.score': p2Score
+            });
         };
 
         const botUnoTurn = () => {
