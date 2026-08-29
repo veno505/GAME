@@ -1514,6 +1514,9 @@
                 } else if (data.currentGame === 'speed') {
                     document.getElementById('game-speed').classList.remove('hidden');
                     updateSpeedUI(data.gameState, isP1);
+                    if (isHost && data.gameState.state === 'ready' && data.gameState.p1Ms && data.gameState.p2Ms) {
+                        checkSpeedResult();
+                    }
                 } else if (data.currentGame === 'memory') {
                     document.getElementById('game-memory').classList.remove('hidden');
                     updateMemoryUI(data.gameState, isP1);
