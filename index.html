@@ -84,25 +84,27 @@
             width: 100vw;
         }
 
-        /* Modern Glassmorphism Styling */
+        /* Cartoon Soft Dark Mode Styling */
         .glass-panel {
-            background: rgba(18, 22, 41, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
+            background: #1a1a2e;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #252542;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .glass-card:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(0, 240, 255, 0.3);
             transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         .glass-input {
@@ -658,7 +660,7 @@
 
                     <p id="rps-status" class="mb-5 font-mono text-xs text-gray-400 uppercase tracking-widest text-center h-5">PILIH SENJATA (Shortcut 1, 2, 3)</p>
 
-                    <div class="flex gap-4 w-full justify-center">
+                    <div class="flex flex-wrap gap-4 w-full justify-center pb-8" style="padding-bottom: calc(2rem + env(safe-area-inset-bottom)); z-index: 10;">
                         <button onclick="playRPS('rock')" class="rps-btn text-4xl glass-panel p-4 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan">✊</button>
                         <button onclick="playRPS('paper')" class="rps-btn text-4xl glass-panel p-4 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan">🖐️</button>
                         <button onclick="playRPS('scissors')" class="rps-btn text-4xl glass-panel p-4 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan">✌️</button>
@@ -725,7 +727,11 @@
 
                     <p id="memory-status" class="mb-3 font-mono text-xs uppercase tracking-widest text-center px-3 py-1 rounded-xl bg-white/5 border border-white/10">Cari Pasangan Kartu!</p>
 
-                    <div class="grid grid-cols-4 gap-2 w-full max-w-[290px]" id="memory-board">
+                    <div class="w-full flex justify-between px-6 mb-2 font-mono text-sm text-white max-w-[360px]">
+                        <span class="text-cyber-cyan font-bold">P1: <span id="memory-p1-score">0</span></span>
+                        <span class="text-cyber-pink font-bold">P2: <span id="memory-p2-score">0</span></span>
+                    </div>
+                    <div class="grid grid-cols-4 gap-3 w-full max-w-[360px] pb-8" id="memory-board">
                         <!-- Cards generated via JS -->
                     </div>
                 </div>
@@ -1611,7 +1617,7 @@
                 let startColor = discardPile[0].color;
                 if(startColor === 'wild') startColor = ['red','blue','green','yellow'][Math.floor(Math.random()*4)];
 
-                initialGameState = { deck: deck, discardPile: discardPile, p1Hand: hand1, p2Hand: hand2, turn: 'p1', winner: null, currentColor: startColor, scoreAdded: false };
+                initialGameState = { deck: deck, discardPile: discardPile, p1Hand: hand1, p2Hand: hand2, turn: 'p1', winner: null, currentColor: startColor, scoreAdded: false, lastTurnTime: Date.now() };
             }
 
             const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match', 'uno': 'Cyber UNO' };
@@ -2111,7 +2117,7 @@
                 const card = document.createElement('div');
                 const isFlipped = state.flipped.includes(i) || state.matched.includes(i);
                 
-                card.className = `flip-card h-16 rounded-2xl glass-card flex items-center justify-center text-2xl font-bold cursor-pointer transition-all ${isFlipped ? 'flipped border-cyber-cyan bg-cyber-cyan/10' : 'hover:border-cyber-cyan'}`;
+                card.className = `flip-card h-20 rounded-2xl glass-card flex items-center justify-center text-2xl font-bold cursor-pointer transition-all ${isFlipped ? 'flipped border-cyber-cyan bg-cyber-cyan/10' : 'hover:border-cyber-cyan'}`;
                 card.innerHTML = `<div class="flip-card-inner w-full h-full relative">
                     <div class="flip-card-front w-full h-full absolute flex items-center justify-center text-3xl">❓</div>
                     <div class="flip-card-back w-full h-full absolute flex items-center justify-center text-3xl">${icon}</div>
