@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="">
+<html lang="id" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -29,14 +29,14 @@
                     },
                     colors: {
                         clay: {
-                            base: '#F3F4F6', // Light gray background
-                            panel: '#FFFFFF', // White panel
-                            text: '#374151',
-                            primary: '#A78BFA', // Soft Lilac
-                            secondary: '#6EE7B7', // Mint Green
-                            tertiary: '#93C5FD', // Baby Blue
-                            accent: '#FCA5A5', // Soft Coral
-                            warning: '#FCD34D'
+                            base: '#1E1E2E', // Dark soft cartoon background
+                            panel: '#2A2A3C', // Dark soft panel
+                            text: '#F3F4F6', // Light text
+                            primary: '#B48EAD', // Soft Lilac / Mauve
+                            secondary: '#A3BE8C', // Mint Green / Sage
+                            tertiary: '#88C0D0', // Baby Blue
+                            accent: '#BF616A', // Soft Coral / Red
+                            warning: '#EBCB8B'  // Soft Yellow
                         }
                     },
                     animation: {
@@ -64,7 +64,227 @@
             }
         }
     </script>
-    <link rel="stylesheet" href="css/theme.css">
+    
+<style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        body {
+            background-color: #F8F9FA; /* Sangat soft pastel background */
+            color: #334155;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7deg,0) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30deg,0) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30deg,0) 0, transparent 50%);
+        }
+
+        /* Gen-Z Claymorphism Styling */
+        .clay-panel {
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4), inset -4px -4px 8px rgba(255, 255, 255, 0.05);
+        }
+
+        .clay-btn {
+            border-radius: 9999px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4), inset -4px -4px 8px rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+        .clay-input:focus {
+            border-color: #A78BFA;
+            background: #FFFFFF;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.2);
+        }
+
+        /* Fun Soft Colors for specific elements */
+        .bg-clay-primary { background-color: #A78BFA; color: white; }
+        .bg-clay-secondary { background-color: #6EE7B7; color: #064E3B; }
+        .bg-clay-tertiary { background-color: #93C5FD; color: #1E3A8A; }
+        .bg-clay-accent { background-color: #FCA5A5; color: #7F1D1D; }
+        .bg-clay-warning { background-color: #FCD34D; color: #78350F; }
+
+        .text-clay-primary { color: #8B5CF6; }
+        .text-clay-secondary { color: #10B981; }
+        .text-clay-tertiary { color: #3B82F6; }
+        .text-clay-accent { color: #EF4444; }
+        .text-clay-warning { color: #F59E0B; }
+
+        /* Grid Background pattern fun */
+        .cyber-grid {
+            background-size: 40px 40px;
+            background-image: 
+                radial-gradient(circle, rgba(167, 139, 250, 0.1) 2px, transparent 2px);
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+        }
+
+        /* Custom Scrollbar - Soft */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.02); }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+        /* Mobile specific fixes */
+        .h-safe-screen {
+            height: 100vh;
+            height: -webkit-fill-available;
+        }
+
+        /* Toast Animation */
+        .toast-enter { animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .toast-exit { animation: toastOut 0.3s ease-in forwards; }
+
+        @keyframes toastIn {
+            from { transform: translateY(100%) scale(0.5); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes toastOut {
+            from { transform: translateY(0) scale(1); opacity: 1; }
+            to { transform: translateY(100%) scale(0.8); opacity: 0; }
+        }
+
+        /* Drawer Animation */
+        .drawer-open { animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1) forwards; }
+        .drawer-close { animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { transform: translateY(0); }
+            to { transform: translateY(100%); }
+        }
+
+        /* Uno Cards */
+        .uno-card {
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.15);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 12px;
+            border: 4px solid white;
+        }
+        .uno-card:active {
+            transform: scale(0.9);
+        }
+        
+        .uno-red { background: #FF5A5F; }
+        .uno-blue { background: #3B82F6; }
+        .uno-green { background: #10B981; }
+        .uno-yellow { background: #FCD34D; }
+        .uno-wild { background: #1F2937; color: white; border: 4px solid #A78BFA; }
+        
+        .uno-ellipse {
+            background-color: white;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform: rotate(-20deg);
+            box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1);
+        }
+        .uno-ellipse-wild {
+            background: conic-gradient(#FF5A5F 0 90deg, #3B82F6 90deg 180deg, #FCD34D 180deg 270deg, #10B981 270deg 360deg);
+        }
+
+        /* Uno Chat Animation */
+        @keyframes slideInRight {
+            from { transform: translateX(100%) scale(0.8); opacity: 0; }
+            to { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.8); }
+        }
+
+        .uno-msg { animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .uno-msg-fade { animation: fadeOut 0.5s ease-out forwards; }
+        
+        /* Uno Floating Draw Animation */
+        @keyframes drawCardAnim {
+            0% { transform: translate(-50%, 100%) scale(0.3) rotate(-30deg); opacity: 0; }
+            60% { transform: translate(-50%, -30px) scale(1.3) rotate(15deg); opacity: 1; }
+            100% { transform: translate(-50%, 0) scale(1) rotate(0deg); opacity: 1; }
+        }
+        .uno-draw-anim {
+            animation: drawCardAnim 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: absolute;
+            left: 50%;
+            bottom: 20px;
+            z-index: 50;
+        }
+
+        /* 3D Flip Card - Mind Flip */
+        .flip-card {
+            perspective: 1000px;
+            background-color: transparent !important;
+        }
+
+        .flip-card-inner {
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+        }
+
+        .flip-card-front {
+            background: #A78BFA;
+            border: 4px solid white;
+            box-shadow: inset 4px 4px 8px rgba(255,255,255,0.4), 4px 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .flip-card-back {
+            background: #FFFFFF;
+            border: 4px solid #A78BFA;
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Pulse Animation for active turns */
+        .turn-indicator {
+            box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.7);
+            animation: pulse-ring 2s infinite;
+            border: 3px solid #A78BFA;
+        }
+        
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(167, 139, 250, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(167, 139, 250, 0); }
+        }
+
+        /* RPS Mobile Fixes */
+        .rps-actions-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            padding-bottom: env(safe-area-inset-bottom, 20px);
+            z-index: 50;
+        }
+
+</style>
+
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 </head>
 <body class="font-sans antialiased text-gray-100 flex flex-col justify-between">
@@ -2340,7 +2560,271 @@
             }
         });
     </script>
-    <script src="js/gameEngine.js"></script>
-    <script src="js/voiceChat.js"></script>
+    
+<script>
+window.GameEngine = {
+    games: {}, // Stores loaded game modules
+    currentGame: null,
+
+    registerGame: function (gameId, gameModule) {
+        this.games[gameId] = gameModule;
+        console.log(`Game ${gameId} registered.`);
+    },
+
+    loadGameScript: function (gameId) {
+        return new Promise((resolve, reject) => {
+            if (this.games[gameId]) return resolve(); // Already loaded
+
+            const script = document.createElement('script');
+            script.src = `js/games/${gameId}.js`;
+            script.onload = () => resolve();
+            script.onerror = () => reject(new Error(`Failed to load ${gameId}`));
+            document.body.appendChild(script);
+        });
+    },
+
+    initGame: async function (gameId, isHost, initialGameState = null) {
+        // Hide all old games
+        const container = document.getElementById('dynamic-game-container');
+        if (container) container.innerHTML = ''; // Clear container
+
+        // Ensure script is loaded
+        await this.loadGameScript(gameId);
+
+        if (!this.games[gameId]) {
+            console.error('Game not found:', gameId);
+            return null;
+        }
+
+        this.currentGame = gameId;
+
+        // Call the module's HTML injector
+        const gameHtml = this.games[gameId].getHTML();
+        if (container) {
+            container.innerHTML = gameHtml;
+        }
+
+        // Run host specific initializations if needed
+        let finalInitialState = initialGameState;
+        if (isHost && this.games[gameId].getInitialState && !initialGameState) {
+            finalInitialState = this.games[gameId].getInitialState();
+        }
+
+        return finalInitialState;
+    },
+
+    onStateUpdate: function (state, isP1) {
+        if (this.currentGame && this.games[this.currentGame] && this.games[this.currentGame].updateUI) {
+            this.games[this.currentGame].updateUI(state, isP1);
+        }
+    }
+};
+
+</script>
+
+    
+<script>
+let peer = null;
+let localStream = null;
+let currentCall = null;
+window.isVoiceEnabled = false;
+
+let audioContext = null;
+let analyserLocal = null;
+let analyserRemote = null;
+let dataArrayLocal = null;
+let dataArrayRemote = null;
+let animationFrameId = null;
+
+window.toggleVoiceChat = async () => {
+    window.isVoiceEnabled = !window.isVoiceEnabled;
+    const btn = document.getElementById('btn-voice-toggle');
+    const icon = document.getElementById('voice-icon');
+
+    if (window.isVoiceEnabled) {
+        // TURN ON
+        btn.classList.remove('text-gray-500');
+        btn.classList.add('text-cyber-green', 'shadow-[0_0_15px_rgba(0,255,100,0.5)]');
+        icon.classList.remove('fa-microphone-slash');
+        icon.classList.add('fa-microphone');
+
+        await startVoiceChat();
+    } else {
+        // TURN OFF
+        btn.classList.add('text-gray-500');
+        btn.classList.remove('text-cyber-green', 'shadow-[0_0_15px_rgba(0,255,100,0.5)]');
+        icon.classList.add('fa-microphone-slash');
+        icon.classList.remove('fa-microphone');
+
+        stopVoiceChat();
+    }
+};
+
+const startVoiceChat = async () => {
+    try {
+        localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        setupAudioAnalyser(localStream, true); // Local mic indicator
+
+        peer = new Peer();
+
+        peer.on('open', (id) => {
+            console.log('My peer ID is: ' + id);
+            
+            // If I am host, advertise my Peer ID to the room
+            if (window.isHost && window.syncRoomState) {
+                window.syncRoomState({ hostPeerId: id });
+            } 
+            // If I am guest, call the host if their Peer ID is available
+            else if (!window.isHost && window.roomData && window.roomData.hostPeerId) {
+                callHost(window.roomData.hostPeerId);
+            }
+        });
+
+        // Listen for incoming calls (Host receives this from Guest)
+        peer.on('call', (call) => {
+            console.log('Receiving call...');
+            call.answer(localStream); // Answer with our stream
+            currentCall = call;
+
+            call.on('stream', (remoteStream) => {
+                playRemoteStream(remoteStream);
+            });
+        });
+
+    } catch (err) {
+        console.error('Failed to get local stream', err);
+        // Reset UI if failed
+        window.toggleVoiceChat();
+        alert('Gagal mengakses mikrofon. Pastikan izin diberikan.');
+    }
+};
+
+const callHost = (hostPeerId) => {
+    if (!peer || !localStream) return;
+    console.log('Calling host: ' + hostPeerId);
+    const call = peer.call(hostPeerId, localStream);
+    currentCall = call;
+
+    call.on('stream', (remoteStream) => {
+        playRemoteStream(remoteStream);
+    });
+};
+
+const playRemoteStream = (remoteStream) => {
+    const remoteAudio = document.getElementById('remote-audio');
+    if (remoteAudio) {
+        remoteAudio.srcObject = remoteStream;
+        // Try to play (might be blocked by browser policy until interaction, but they already clicked the mic button)
+        remoteAudio.play().catch(e => console.log('Autoplay blocked:', e));
+    }
+    setupAudioAnalyser(remoteStream, false);
+};
+
+const stopVoiceChat = () => {
+    if (currentCall) {
+        currentCall.close();
+        currentCall = null;
+    }
+    if (peer) {
+        peer.destroy();
+        peer = null;
+    }
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+    }
+    if (window.isHost && window.syncRoomState) {
+        window.syncRoomState({ hostPeerId: null });
+    }
+    const remoteAudio = document.getElementById('remote-audio');
+    if (remoteAudio) remoteAudio.srcObject = null;
+
+    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    if (audioContext) {
+        audioContext.close();
+        audioContext = null;
+    }
+
+    // Reset UI indicators
+    document.getElementById('p1-avatar').style.boxShadow = '';
+    document.getElementById('p2-avatar').style.boxShadow = '';
+};
+
+// Listen for updates from Firebase (Guest seeing hostPeerId)
+window.handleVoiceChatUpdate = (data) => {
+    if (window.isVoiceEnabled && !window.isHost && data.hostPeerId && (!currentCall || !currentCall.open)) {
+        // If host restarted their peer or guest just connected
+        callHost(data.hostPeerId);
+    }
+};
+
+// ----- Audio Visualizer for Avatar -----
+const setupAudioAnalyser = (stream, isLocal) => {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const source = audioContext.createMediaStreamSource(stream);
+    const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
+    source.connect(analyser);
+
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+
+    if (isLocal) {
+        analyserLocal = analyser;
+        dataArrayLocal = dataArray;
+    } else {
+        analyserRemote = analyser;
+        dataArrayRemote = dataArray;
+    }
+
+    if (!animationFrameId) {
+        updateMicIndicators();
+    }
+};
+
+const updateMicIndicators = () => {
+    animationFrameId = requestAnimationFrame(updateMicIndicators);
+
+    let localVol = 0;
+    if (analyserLocal) {
+        analyserLocal.getByteFrequencyData(dataArrayLocal);
+        let sum = 0;
+        for (let i = 0; i < dataArrayLocal.length; i++) sum += dataArrayLocal[i];
+        localVol = sum / dataArrayLocal.length;
+    }
+
+    let remoteVol = 0;
+    if (analyserRemote) {
+        analyserRemote.getByteFrequencyData(dataArrayRemote);
+        let sum = 0;
+        for (let i = 0; i < dataArrayRemote.length; i++) sum += dataArrayRemote[i];
+        remoteVol = sum / dataArrayRemote.length;
+    }
+
+    // Determine who is P1 and P2
+    const myAvatar = window.isHost ? document.getElementById('p1-avatar') : document.getElementById('p2-avatar');
+    const oppAvatar = window.isHost ? document.getElementById('p2-avatar') : document.getElementById('p1-avatar');
+
+    if (myAvatar) applyGlow(myAvatar, localVol);
+    if (oppAvatar) applyGlow(oppAvatar, remoteVol);
+};
+
+const applyGlow = (el, volume) => {
+    if (volume > 15) {
+        const intensity = Math.min(volume / 50, 1);
+        el.style.boxShadow = `0 0 ${10 + intensity * 20}px rgba(0, 255, 100, ${0.4 + intensity * 0.6})`;
+        el.style.borderColor = '#00ff64';
+    } else {
+        el.style.boxShadow = '';
+        el.style.borderColor = '';
+    }
+};
+
+window.stopVoiceChat = stopVoiceChat;
+
+</script>
+
 </body>
 </html>
