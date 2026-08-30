@@ -343,7 +343,7 @@
                 </div>
 
                 <div class="text-center mt-2">
-                    <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-clay-text">READY PLAYER ONE</h2>
+                    <h2 class="font-heading text-xl sm:text-4xl font-extrabold text-clay-text">READY PLAYER ONE</h2>
                     <p class="text-gray-500 text-xs sm:text-sm mt-1">Pilih avatar & buat codename kamu untuk mulai bersaing!</p>
                 </div>
 
@@ -721,9 +721,13 @@
                         <h3 class="text-xs font-mono tracking-widest text-clay-secondary uppercase">Mind Flip Memory Match</h3>
                     </div>
 
+                    <div class="flex justify-between w-full max-w-[290px] mb-2 px-2 text-xs font-mono">
+                        <span class="text-clay-tertiary">P1: <b id="memory-p1-score">0</b></span>
+                        <span class="text-gray-400">Time: <b id="memory-timer">60</b>s (Combo x<span id="memory-combo">1</span>)</span>
+                        <span class="text-clay-accent">P2: <b id="memory-p2-score">0</b></span>
+                    </div>
                     <p id="memory-status" class="mb-3 font-mono text-xs uppercase tracking-widest text-center px-3 py-1 rounded-xl bg-white/5 border border-gray-200">Cari Pasangan Kartu!</p>
-
-                    <div class="grid grid-cols-4 gap-2 w-full max-w-[290px]" id="memory-board">
+                    <div class="grid gap-2 w-full max-w-[320px] transition-all" id="memory-board">
                         <!-- Cards generated via JS -->
                     </div>
                 </div>
@@ -732,6 +736,9 @@
                 <div id="game-uno" class="w-full hidden flex-col items-center relative" style="height: calc(100vh - 280px); min-height: 380px;">
                     <div class="clay-panel px-4 py-1 rounded-full border-clay-accent mb-2 shrink-0">
                         <h3 class="text-xs font-mono tracking-widest text-clay-accent uppercase">Cyber UNO Duel</h3>
+                    </div>
+                    <div id="uno-timer-container" class="mb-2 w-full max-w-[200px] bg-dark-card rounded-full h-2 relative overflow-hidden border border-white/10">
+                        <div id="uno-timer-bar" class="absolute left-0 top-0 h-full bg-clay-accent transition-all duration-1000 w-full"></div>
                     </div>
                     
                     <!-- Opponent Status -->
@@ -1614,7 +1621,7 @@
                 let startColor = discardPile[0].color;
                 if(startColor === 'wild') startColor = ['red','blue','green','yellow'][Math.floor(Math.random()*4)];
 
-                initialGameState = { deck: deck, discardPile: discardPile, p1Hand: hand1, p2Hand: hand2, turn: 'p1', winner: null, currentColor: startColor, scoreAdded: false, turnStartTime: Date.now() };
+                initialGameState = { deck: deck, discardPile: discardPile, p1Hand: hand1, p2Hand: hand2, turn: 'p1', winner: null, currentColor: startColor, scoreAdded: false, turnStartTime: Date.now(), turnDeadline: Date.now() + 15000 };
             }
 
             const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match', 'uno': 'Cyber UNO' };
@@ -1646,7 +1653,7 @@
         };
 
         // --- 8. GAME 1: ROCK PAPER SCISSORS LOGIC ---
-        const rpsEmojis = { 'rock': '✊', 'paper': '🖐️', 'scissors': '✌️' };
+        const rpsEmojis = { 'rock': '✊', 'paper': '✋', 'scissors': '✌️' };
 
         window.playRPS = async (choice) => {
             AudioEngine.playSelect();
@@ -1977,6 +1984,9 @@
                 AudioEngine.playSelect();
 
                 if(isBotMode) roomData.gameState[isP1 ? 'p1Ms' : 'p2Ms'] = reactionTime;
+                // Optimistic UI update
+                const pMsEl = document.getElementById(isP1 ? 'speed-p1-ms' : 'speed-p2-ms');
+                if (pMsEl) pMsEl.innerText = reactionTime + ' ms';
                 await syncRoomState({ [field]: reactionTime });
 
                 if (isBotMode && !roomData.gameState.p2Ms) {
@@ -1993,24 +2003,33 @@
         const checkSpeedResult = async () => {
             if (!isHost) return;
             const state = roomData.gameState;
+            if (state.state !== 'ready') return;
+            
             if (state.p1Ms || state.p2Ms) {
-                let winner;
-                if (state.p1Ms && !state.p2Ms) winner = 'p1';
-                else if (!state.p1Ms && state.p2Ms) winner = 'p2';
-                else winner = state.p1Ms <= state.p2Ms ? 'p1' : 'p2';
-                let resultText = winner === 'p1' ? 'P1 TERCEPAT!' : 'P2 TERCEPAT!';
-
-                let p1Score = roomData.p1.score;
-                let p2Score = roomData.p2.score;
-                if (winner === 'p1') { p1Score++; if(currentUser.uid === roomData.p1.uid) addXP(40); }
-                if (winner === 'p2') { p2Score++; if(currentUser.uid === roomData.p2.uid) addXP(40); }
-
-                await syncRoomState({
-                    'gameState.state': 'finished',
-                    'gameState.resultText': resultText,
-                    'p1.score': p1Score,
-                    'p2.score': p2Score
-                });
+                // Wait 1 second for the other player's packet to arrive
+                if (!window.speedCheckTimeout) {
+                    window.speedCheckTimeout = setTimeout(async () => {
+                        const latestState = roomData.gameState;
+                        let winner;
+                        if (latestState.p1Ms && !latestState.p2Ms) winner = 'p1';
+                        else if (!latestState.p1Ms && latestState.p2Ms) winner = 'p2';
+                        else winner = latestState.p1Ms <= latestState.p2Ms ? 'p1' : 'p2';
+                        let resultText = winner === 'p1' ? 'P1 TERCEPAT!' : 'P2 TERCEPAT!';
+        
+                        let p1Score = roomData.p1.score;
+                        let p2Score = roomData.p2.score;
+                        if (winner === 'p1') { p1Score++; if(currentUser.uid === roomData.p1.uid) addXP(40); }
+                        if (winner === 'p2') { p2Score++; if(currentUser.uid === roomData.p2.uid) addXP(40); }
+        
+                        await syncRoomState({
+                            'gameState.state': 'finished',
+                            'gameState.resultText': resultText,
+                            'p1.score': p1Score,
+                            'p2.score': p2Score
+                        });
+                        window.speedCheckTimeout = null;
+                    }, 1000);
+                }
             }
         };
 
@@ -2056,8 +2075,9 @@
                     // Match!
                     AudioEngine.playSelect();
                     const newMatched = [...state.matched, idx1, idx2];
-                    let p1Score = state.p1Score + (state.turn === 'p1' ? 1 : 0);
-                    let p2Score = state.p2Score + (state.turn === 'p2' ? 1 : 0);
+                    let addedScore = 10 * (state.combo || 1);
+                    let p1Score = state.p1Score + (state.turn === 'p1' ? addedScore : 0);
+                    let p2Score = state.p2Score + (state.turn === 'p2' ? addedScore : 0);
                     let winner = newMatched.length === state.deck.length ? (p1Score > p2Score ? 'p1' : (p2Score > p1Score ? 'p2' : 'draw')) : null;
 
                     let globalP1 = roomData.p1.score;
@@ -2081,7 +2101,8 @@
                     setTimeout(async () => {
                         await syncRoomState({
                             'gameState.flipped': [],
-                            'gameState.turn': nextTurn
+                            'gameState.turn': nextTurn,
+                            'gameState.combo': 1 // Reset combo on miss
                         });
 
                         if (isBotMode && nextTurn === 'p2') {
@@ -2106,7 +2127,18 @@
             }
         };
 
+        let memoryTimerInterval;
         const updateMemoryUI = (state, isP1) => {
+            if (memoryTimerInterval) clearInterval(memoryTimerInterval);
+            memoryTimerInterval = setInterval(() => {
+                if (!roomData || roomData.currentGame !== 'memory' || roomData.gameState.winner) {
+                    clearInterval(memoryTimerInterval);
+                    return;
+                }
+                if (isHost && roomData.gameState.timeLeft > 0) {
+                    syncRoomState({ 'gameState.timeLeft': roomData.gameState.timeLeft - 1 });
+                }
+            }, 1000);
             const board = document.getElementById('memory-board');
             board.innerHTML = '';
             
@@ -2114,10 +2146,11 @@
                 const card = document.createElement('div');
                 const isFlipped = state.flipped.includes(i) || state.matched.includes(i);
                 
-                card.className = `flip-card h-16 rounded-2xl clay-card flex items-center justify-center text-2xl font-bold cursor-pointer transition-all ${isFlipped ? 'flipped border-clay-tertiary bg-clay-tertiary/10' : 'hover:border-clay-tertiary'}`;
+                const cardHeight = state.gridSize === 36 ? 'h-10' : (state.gridSize === 24 ? 'h-12' : 'h-16');
+                card.className = `flip-card ${cardHeight} rounded-2xl clay-card flex items-center justify-center text-2xl font-bold cursor-pointer transition-all ${isFlipped ? 'flipped border-clay-tertiary bg-clay-tertiary/10' : 'hover:border-clay-tertiary'}`;
                 card.innerHTML = `<div class="flip-card-inner w-full h-full relative">
-                    <div class="flip-card-front w-full h-full absolute flex items-center justify-center text-3xl">❓</div>
-                    <div class="flip-card-back w-full h-full absolute flex items-center justify-center text-3xl">${icon}</div>
+                    <div class="flip-card-front w-full h-full absolute flex items-center justify-center text-xl">❓</div>
+                    <div class="flip-card-back w-full h-full absolute flex items-center justify-center text-xl">${icon}</div>
                 </div>`;
                 card.onclick = () => flipMemoryCard(i);
                 board.appendChild(card);
@@ -2126,10 +2159,54 @@
             const statusTxt = document.getElementById('memory-status');
             const myTurn = (state.turn === 'p1' && isP1) || (state.turn === 'p2' && !isP1);
             statusTxt.innerText = state.winner ? `WINNER: ${state.winner.toUpperCase()}` : (myTurn ? "GILIRAN KAMU MEMBALIK KARTU" : "GILIRAN LAWAN...");
+            
+            document.getElementById('memory-p1-score').innerText = state.p1Score || 0;
+            document.getElementById('memory-p2-score').innerText = state.p2Score || 0;
+            document.getElementById('memory-timer').innerText = state.timeLeft || 0;
+            document.getElementById('memory-combo').innerText = state.combo || 1;
+            
+            // Adjust grid classes
+            const board = document.getElementById('memory-board');
+            if (state.gridSize === 16) board.className = 'grid grid-cols-4 gap-2 w-full max-w-[290px] transition-all';
+            else if (state.gridSize === 24) board.className = 'grid grid-cols-4 gap-1.5 w-full max-w-[320px] transition-all';
+            else board.className = 'grid grid-cols-6 gap-1 w-full max-w-[350px] transition-all';
+            
+            // If time is up, end game
+            if (state.timeLeft <= 0 && !state.winner && isHost) {
+                let p1Score = state.p1Score;
+                let p2Score = state.p2Score;
+                let winner = p1Score > p2Score ? 'p1' : (p2Score > p1Score ? 'p2' : 'draw');
+                syncRoomState({ 'gameState.winner': winner });
+            }
         };
 
         // --- 12.5 GAME 6: UNO LOGIC ---
+        let unoTimerInterval;
         const updateUnoUI = (state, isP1) => {
+            if (unoTimerInterval) clearInterval(unoTimerInterval);
+            
+            const timerBar = document.getElementById('uno-timer-bar');
+            unoTimerInterval = setInterval(() => {
+                if (!roomData || roomData.currentGame !== 'uno' || roomData.gameState.winner) {
+                    clearInterval(unoTimerInterval);
+                    return;
+                }
+                const now = Date.now();
+                const deadline = roomData.gameState.turnDeadline;
+                const remaining = Math.max(0, deadline - now);
+                const percent = (remaining / 15000) * 100;
+                
+                if (timerBar) {
+                    timerBar.style.width = percent + '%';
+                    if (percent < 30) timerBar.className = 'absolute left-0 top-0 h-full bg-red-500 transition-all duration-1000';
+                    else timerBar.className = 'absolute left-0 top-0 h-full bg-clay-accent transition-all duration-1000 w-full';
+                }
+                
+                if (remaining === 0 && isHost) {
+                    clearInterval(unoTimerInterval);
+                    handleUnoTimeout();
+                }
+            }, 500);
             const p2Count = document.getElementById('uno-p2-count');
             const statusTxt = document.getElementById('uno-status');
             const handContainer = document.getElementById('uno-hand');
@@ -2263,6 +2340,27 @@
             state.currentColor = color;
             state.turn = window._pendingNextTurn;
             finishUnoMove(state);
+        };
+
+        window.handleUnoTimeout = async () => {
+            const state = roomData.gameState;
+            if (state.winner) return;
+            const currentHand = state.turn === 'p1' ? state.p1Hand : state.p2Hand;
+            if (state.deck.length === 0) return; // Out of cards, ignore timeout
+            const drawn = state.deck.pop();
+            const newHand = [...currentHand, drawn];
+            const nextTurn = state.turn === 'p1' ? 'p2' : 'p1';
+            
+            await syncRoomState({
+                'gameState.deck': state.deck,
+                [`gameState.${state.turn}Hand`]: newHand,
+                'gameState.turn': nextTurn,
+                'gameState.turnDeadline': Date.now() + 15000
+            });
+            
+            if (isBotMode && nextTurn === 'p2') {
+                setTimeout(playBotUno, 1000);
+            }
         };
 
         window.drawUnoCard = async () => {
