@@ -69,151 +69,113 @@
         }
     </script>
     <style>
-        :root {
-            /* Ghibli Dark Mode (Default) */
-            --bg-primary: #1A2035;    /* Deep Navy */
-            --bg-secondary: #242A45;  /* Soft Navy */
-            --text-main: #F3F4F6;
-            --text-muted: #9CA3AF;
-            --border-light: rgba(255, 255, 255, 0.15);
-            --card-bg: rgba(36, 42, 69, 0.85);
-            --accent-primary: #8b5cf6; /* Soft Purple */
-            --accent-secondary: #ec4899; /* Soft Pink */
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            --glass-blur: blur(10px);
-        }
-
-        .light-theme {
-            /* Ghibli Light Mode (Cream) */
-            --bg-primary: #FDFBF7;    /* Warm Cream */
-            --bg-secondary: #F4EFE6;  /* Slightly darker cream */
-            --text-main: #2D3748;
-            --text-muted: #718096;
-            --border-light: rgba(0, 0, 0, 0.1);
-            --card-bg: rgba(253, 251, 247, 0.9);
-            --accent-primary: #6B46C1;
-            --accent-secondary: #D53F8C;
-            --shadow-color: rgba(0, 0, 0, 0.15);
-        }
-
         * {
             box-sizing: border-box;
             user-select: none;
             -webkit-user-select: none;
-            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
         }
-
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
+            background-color: #0A0D18;
+            color: #F3F4F6;
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             overflow: hidden;
             height: 100vh;
             width: 100vw;
-            position: relative;
         }
 
-        /* Ghibli Watercolor / Canvas Texture Overlay */
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: overlay;
-            opacity: 0.3;
-        }
-
-        /* Glass / Soft Cartoon Elements */
+        /* Modern Glassmorphism Styling */
         .glass-panel {
-            background: var(--card-bg);
-            border: 3px solid var(--border-light);
-            border-radius: 24px;
-            box-shadow: 0 6px 0 var(--shadow-color);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
+            background: rgba(18, 22, 41, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45);
         }
 
         .glass-card {
-            background: var(--bg-secondary);
-            border: 3px solid var(--border-light);
-            border-radius: 20px;
-            box-shadow: 0 4px 0 var(--shadow-color);
-            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .glass-card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(0, 240, 255, 0.3);
             transform: translateY(-2px);
-            box-shadow: 0 6px 0 var(--shadow-color);
         }
 
         .glass-input {
-            background: rgba(0, 0, 0, 0.05);
-            border: 2px solid var(--border-light);
-            color: var(--text-main);
-            border-radius: 12px;
-            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #FFFFFF;
+            transition: all 0.2s ease;
         }
-        .light-theme .glass-input { background: rgba(0,0,0,0.03); }
         .glass-input:focus {
-            border-color: var(--accent-primary);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #00F0FF;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
             outline: none;
         }
 
-        /* Cartoon Soft Buttons */
+        /* Neon & Cyber Buttons */
         .btn-cyber-primary {
-            background: var(--accent-primary);
-            border: 3px solid var(--border-light);
-            border-radius: 20px;
-            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-            transition: all 0.15s ease;
-            color: #fff;
-            padding: 10px 20px;
-            font-weight: bold;
+            background: linear-gradient(135deg, #00F0FF 0%, #7000FF 100%);
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.35);
+            border: none;
+            transition: all 0.2s ease;
         }
-        .btn-cyber-primary:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+        .btn-cyber-primary:hover {
+            box-shadow: 0 6px 25px rgba(0, 240, 255, 0.5);
+            transform: translateY(-1px);
+        }
+        .btn-cyber-primary:active {
+            transform: scale(0.96);
+        }
 
         .btn-cyber-pink {
-            background: var(--accent-secondary);
-            border: 3px solid var(--border-light);
-            border-radius: 20px;
-            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-            transition: all 0.15s ease;
-            color: #fff;
-            padding: 10px 20px;
-            font-weight: bold;
+            background: linear-gradient(135deg, #FF2E93 0%, #A855F7 100%);
+            box-shadow: 0 4px 20px rgba(255, 46, 147, 0.35);
+            border: none;
+            transition: all 0.2s ease;
         }
-        .btn-cyber-pink:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+        .btn-cyber-pink:hover {
+            box-shadow: 0 6px 25px rgba(255, 46, 147, 0.5);
+            transform: translateY(-1px);
+        }
+        .btn-cyber-pink:active {
+            transform: scale(0.96);
+        }
 
         .btn-cyber-green {
-            background: #10b981;
-            border: 3px solid var(--border-light);
-            border-radius: 20px;
-            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-            color: #fff;
-            font-weight: bold;
-            transition: all 0.15s ease;
+            background: linear-gradient(135deg, #00F5D4 0%, #10B981 100%);
+            box-shadow: 0 4px 20px rgba(0, 245, 212, 0.35);
+            border: none;
+            color: #0A0D18;
+            transition: all 0.2s ease;
         }
-        .btn-cyber-green:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
 
-        /* Avatar Opt */
+        /* Avatar Selection */
         .avatar-opt {
-            transition: all 0.2s;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             filter: grayscale(80%) opacity(0.6);
-            border: 3px solid transparent;
+            border: 2px solid transparent;
         }
         .avatar-opt.selected {
             filter: grayscale(0%) opacity(1);
-            border-color: var(--accent-primary);
+            border-color: #00F0FF;
             transform: scale(1.15);
-            background: rgba(139, 92, 246, 0.15);
+            background: rgba(0, 240, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+        ::-webkit-scrollbar-thumb { background: rgba(0, 240, 255, 0.25); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0, 240, 255, 0.5); }
 
+        /* Floating Emotes Animation */
         .floating-emote {
             position: absolute;
             animation: floatUpFade 1.8s ease-out forwards;
@@ -228,35 +190,111 @@
             100% { opacity: 0; transform: translateY(-80px) scale(0.8); }
         }
 
-        .flip-card { perspective: 1000px; }
-        .flip-card-inner { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
-        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
-        .flip-card-front, .flip-card-back { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-        .flip-card-back { transform: rotateY(180deg); background: var(--bg-primary); border-radius: 20px; }
+        /* Tic-Tac-Toe Win Line Glow */
+        .ttt-win-cell {
+            animation: tttWinGlow 1.2s infinite alternate ease-in-out;
+            background: rgba(0, 245, 212, 0.25) !important;
+            border-color: #00F5D4 !important;
+        }
+        @keyframes tttWinGlow {
+            0% { box-shadow: inset 0 0 15px rgba(0, 245, 212, 0.3), 0 0 15px rgba(0, 245, 212, 0.3); }
+            100% { box-shadow: inset 0 0 30px rgba(0, 245, 212, 0.8), 0 0 30px rgba(0, 245, 212, 0.8); }
+        }
 
-        .sound-bar { width: 3px; background-color: var(--text-main); border-radius: 3px; animation: soundWave 1.2s ease-in-out infinite alternate; }
+        /* Memory Flip Cards */
+        .flip-card {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Sound Wave Visualizer Indicator */
+        .sound-bar {
+            width: 3px;
+            background-color: #00F0FF;
+            border-radius: 3px;
+            animation: soundWave 1.2s ease-in-out infinite alternate;
+        }
         .sound-bar:nth-child(1) { height: 8px; animation-delay: 0.1s; }
         .sound-bar:nth-child(2) { height: 16px; animation-delay: 0.3s; }
         .sound-bar:nth-child(3) { height: 10px; animation-delay: 0.2s; }
-        @keyframes soundWave { 0% { transform: scaleY(0.4); } 100% { transform: scaleY(1.3); } }
-        .sound-muted .sound-bar { animation: none !important; height: 4px !important; background-color: var(--text-muted) !important; }
+        @keyframes soundWave {
+            0% { transform: scaleY(0.4); }
+            100% { transform: scaleY(1.3); }
+        }
+        .sound-muted .sound-bar {
+            animation: none !important;
+            height: 4px !important;
+            background-color: #6B7280 !important;
+        }
 
-        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        #ui-layer { position: relative; z-index: 10; width: 100%; height: 100%; }
-
-        /* UNO */
-        .uno-card { width: 60px; height: 90px; border-radius: 8px; position: relative; cursor: pointer; border: 2px solid var(--border-light); }
-        .uno-card-red { background: #ef4444; }
-        .uno-card-blue { background: #3b82f6; }
-        .uno-card-green { background: #22c55e; }
-        .uno-card-yellow { background: #eab308; }
-        .uno-card-wild { background: #1f2937; }
-        .uno-card .corner { font-size: 10px; font-weight: bold; position: absolute; color: white; }
+        /* Background Particle Canvas */
+        #bg-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #ui-layer {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+        }
+        /* UNO Cards */
+        .uno-card {
+            width: 60px;
+            height: 90px;
+            border-radius: 8px;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.2);
+            user-select: none;
+        }
+        .uno-card-red { background: linear-gradient(135deg, #ef4444, #991b1b); }
+        .uno-card-blue { background: linear-gradient(135deg, #3b82f6, #1e3a8a); }
+        .uno-card-green { background: linear-gradient(135deg, #22c55e, #14532d); }
+        .uno-card-yellow { background: linear-gradient(135deg, #eab308, #713f12); }
+        .uno-card-wild { background: linear-gradient(135deg, #1f2937, #000000); }
+        
+        .uno-card .corner {
+            font-size: 10px;
+            font-weight: bold;
+            position: absolute;
+            color: white;
+            text-shadow: 1px 1px 0 #000;
+        }
         .uno-card .corner.tl { top: 4px; left: 4px; }
         .uno-card .corner.br { bottom: 4px; right: 4px; transform: rotate(180deg); }
-        .uno-card .center { font-size: 24px; font-weight: 900; color: white; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+        .uno-card .center {
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            line-height: 1;
+        }
+        .uno-card.deck-card {
+            background: linear-gradient(135deg, #111, #333);
+            border-color: #f472b6;
+        }
     </style>
-<script src="https://unpkg.com/peerjs@1.5.1/dist/peerjs.min.js"></script>
 </head>
 <body class="font-sans antialiased text-gray-100 flex flex-col justify-between">
 
@@ -280,11 +318,6 @@
 
             <!-- Global Controls: Sound Toggle & Stats Button -->
             <div class="flex items-center gap-3">
-                <!-- Theme Toggle -->
-                <button id="btn-theme-toggle" onclick="toggleTheme()" class="glass-panel w-9 h-9 rounded-xl flex items-center justify-center text-yellow-400 hover:border-yellow-400 transition active:scale-95 shadow-md">
-                    <i class="fas fa-sun" id="theme-icon"></i>
-                </button>
-
                 <!-- Sound & BGM Toggle -->
                 <button id="btn-sound-toggle" onclick="toggleAudio()" class="glass-panel px-3 py-2 rounded-xl flex items-center gap-2 hover:border-cyber-cyan transition text-xs font-mono">
                     <div id="sound-visualizer" class="flex items-center gap-0.5 sound-muted">
@@ -306,15 +339,6 @@
                 </button>
             </div>
         </header>
-
-        <!-- Floating Voice Chat Control -->
-        <div id="voice-chat-control" class="absolute bottom-6 right-4 sm:right-6 z-[100] hidden flex flex-col items-center gap-1">
-            <div id="voice-status-bubble" class="text-[9px] font-mono bg-black/50 px-2 py-0.5 rounded-full text-cyber-cyan mb-1 hidden">Connected</div>
-            <button id="btn-mic-toggle" onclick="toggleMic()" class="glass-panel w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition active:scale-95 text-white border-cyber-cyan/50">
-                <i class="fas fa-microphone" id="mic-icon"></i>
-            </button>
-            <audio id="remote-audio" autoplay></audio>
-        </div>
 
         <!-- TOAST NOTIFICATION CONTAINER -->
         <div id="toast-container" class="absolute top-16 left-0 right-0 flex flex-col items-center gap-2 z-[9999] pointer-events-none px-4"></div>
@@ -609,40 +633,7 @@
                             </div>
                         </button>
 
-                        <!-- Batch 1 Games -->
-                          <button onclick="startGame('wordle')" class="glass-card p-3.5 rounded-2xl flex items-center gap-3 hover:border-cyber-pink transition text-left group">
-                              <div class="text-2xl bg-dark-base p-2.5 rounded-xl border border-white/10 group-hover:border-cyber-pink">📝</div>
-                              <div>
-                                  <h4 class="font-heading font-bold text-base text-white">Tebak Kata</h4>
-                                  <p class="text-xs text-gray-400 font-mono">Wordle Multiplayer</p>
-                              </div>
-                          </button>
-                          
-                          <button onclick="startGame('dots')" class="glass-card p-3.5 rounded-2xl flex items-center gap-3 hover:border-cyber-cyan transition text-left group">
-                              <div class="text-2xl bg-dark-base p-2.5 rounded-xl border border-white/10 group-hover:border-cyber-cyan">⏹️</div>
-                              <div>
-                                  <h4 class="font-heading font-bold text-base text-white">Dots & Boxes</h4>
-                                  <p class="text-xs text-gray-400 font-mono">Sambung Titik Kotak</p>
-                              </div>
-                          </button>
-
-                          <button onclick="startGame('seabattle')" class="glass-card p-3.5 rounded-2xl flex items-center gap-3 hover:border-blue-400 transition text-left group">
-                              <div class="text-2xl bg-dark-base p-2.5 rounded-xl border border-white/10 group-hover:border-blue-400">🚢</div>
-                              <div>
-                                  <h4 class="font-heading font-bold text-base text-white">Sea Battle</h4>
-                                  <p class="text-xs text-gray-400 font-mono">Tebak Kapal Perang</p>
-                              </div>
-                          </button>
-
-                          <button onclick="startGame('ludo')" class="glass-card p-3.5 rounded-2xl flex items-center gap-3 hover:border-yellow-400 transition text-left group">
-                              <div class="text-2xl bg-dark-base p-2.5 rounded-xl border border-white/10 group-hover:border-yellow-400">🎲</div>
-                              <div>
-                                  <h4 class="font-heading font-bold text-base text-white">Ludo Mini</h4>
-                                  <p class="text-xs text-gray-400 font-mono">Balapan Bidak 2P</p>
-                              </div>
-                          </button>
-
-                          <!-- 6. Cyber UNO -->
+                        <!-- 6. Cyber UNO -->
                         <button onclick="startGame('uno')" class="glass-card p-3.5 rounded-2xl flex items-center gap-3 hover:border-cyber-pink transition text-left group">
                             <div class="text-2xl bg-dark-base p-2.5 rounded-xl border border-white/10 group-hover:border-cyber-pink">🎴</div>
                             <div>
@@ -667,10 +658,10 @@
 
                     <p id="rps-status" class="mb-5 font-mono text-xs text-gray-400 uppercase tracking-widest text-center h-5">PILIH SENJATA (Shortcut 1, 2, 3)</p>
 
-                    <div class="grid grid-cols-3 gap-3 w-full max-w-[340px] px-2 pb-8" style="padding-bottom: calc(2rem + env(safe-area-inset-bottom)); z-index: 10;">
-                        <button onclick="playRPS('rock')" class="rps-btn text-4xl sm:text-5xl glass-panel py-5 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center">✊</button>
-                        <button onclick="playRPS('paper')" class="rps-btn text-4xl sm:text-5xl glass-panel py-5 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center">🖐️</button>
-                        <button onclick="playRPS('scissors')" class="rps-btn text-4xl sm:text-5xl glass-panel py-5 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center">✌️</button>
+                    <div class="flex gap-4 w-full justify-center">
+                        <button onclick="playRPS('rock')" class="rps-btn text-4xl glass-panel p-4 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan">✊</button>
+                        <button onclick="playRPS('paper')" class="rps-btn text-4xl glass-panel p-4 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan">🖐️</button>
+                        <button onclick="playRPS('scissors')" class="rps-btn text-4xl glass-panel p-4 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan">✌️</button>
                     </div>
                 </div>
 
@@ -734,34 +725,8 @@
 
                     <p id="memory-status" class="mb-3 font-mono text-xs uppercase tracking-widest text-center px-3 py-1 rounded-xl bg-white/5 border border-white/10">Cari Pasangan Kartu!</p>
 
-                    <div class="w-full flex justify-between px-6 mb-2 font-mono text-sm text-white max-w-[360px]">
-                        <span class="text-cyber-cyan font-bold">P1: <span id="memory-p1-score">0</span></span>
-                        <span class="text-cyber-pink font-bold">P2: <span id="memory-p2-score">0</span></span>
-                    </div>
-                    <div class="flex flex-wrap justify-center gap-2 w-full max-w-[360px] pb-8" id="memory-board">
+                    <div class="grid grid-cols-4 gap-2 w-full max-w-[290px]" id="memory-board">
                         <!-- Cards generated via JS -->
-                    </div>
-                </div>
-
-                <!-- GAME 7: WORDLE (TEBAK KATA) -->
-                <div id="game-wordle" class="w-full hidden flex-col items-center">
-                    <div class="glass-panel px-4 py-1 rounded-full border-cyber-cyan mb-3">
-                        <h3 class="text-xs font-mono tracking-widest text-cyber-cyan uppercase">Tebak Kata</h3>
-                    </div>
-                    <p id="wordle-status" class="mb-3 font-mono text-xs uppercase tracking-widest text-center px-3 py-1 rounded-xl bg-white/5 border border-white/10">Tebak kata 5 huruf!</p>
-                    <div class="flex gap-4 w-full max-w-[360px] justify-between px-2 mb-2">
-                        <div class="flex flex-col items-center w-1/2">
-                            <span class="text-cyber-cyan font-bold text-xs mb-1">P1</span>
-                            <div id="wordle-p1-grid" class="flex flex-col gap-1 w-full"></div>
-                        </div>
-                        <div class="flex flex-col items-center w-1/2">
-                            <span class="text-cyber-pink font-bold text-xs mb-1">P2</span>
-                            <div id="wordle-p2-grid" class="flex flex-col gap-1 w-full"></div>
-                        </div>
-                    </div>
-                    <div class="w-full max-w-[320px] flex gap-2 mt-2">
-                        <input type="text" id="wordle-input" maxlength="5" class="glass-input flex-grow text-center uppercase tracking-widest font-bold" placeholder="5 HURUF">
-                        <button onclick="submitWordle()" class="btn-cyber-primary shrink-0"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
 
@@ -773,10 +738,7 @@
                     
                     <!-- Opponent Status -->
                     <div class="w-full flex justify-between items-center px-2 mb-2 shrink-0">
-                        <div class="flex items-center gap-2 text-xs font-mono text-gray-400">
-                            P2 Cards: <span id="uno-p2-count" class="text-white font-bold">7</span>
-                            <div id="uno-p2-timer" class="ml-2 px-2 py-0.5 rounded bg-white/10 text-white font-bold">05:00</div>
-                        </div>
+                        <div class="text-xs font-mono text-gray-400">P2 Cards: <span id="uno-p2-count" class="text-white font-bold">7</span></div>
                         <p id="uno-status" class="font-mono text-[10px] uppercase tracking-widest text-center px-2 py-0.5 rounded-md bg-white/5 border border-white/10">Giliranmu</p>
                     </div>
 
@@ -795,12 +757,6 @@
                     
                     <!-- Color Indicator -->
                     <div id="uno-color-indicator" class="w-6 h-6 rounded-full shadow-lg mb-2 hidden border-2 border-white shrink-0"></div>
-
-                    <!-- My Status -->
-                    <div class="w-full flex justify-between items-center px-2 shrink-0 mb-1">
-                        <div class="text-[10px] font-mono text-cyber-cyan uppercase">Your Hand</div>
-                        <div id="uno-p1-timer" class="px-2 py-0.5 rounded bg-cyber-cyan/20 text-cyber-cyan font-mono font-bold text-xs">05:00</div>
-                    </div>
 
                     <!-- My Hand -->
                     <div class="w-full flex-grow flex flex-col justify-end overflow-hidden pb-1">
@@ -1402,7 +1358,6 @@
         };
 
         window.leaveRoom = async () => {
-            if (typeof closeVoiceChat === 'function') closeVoiceChat();
             lastChatTime = 0;
             if (unsubscribeRoom) { unsubscribeRoom(); unsubscribeRoom = null; }
             if (currentRoomId && !isBotMode && db) {
@@ -1448,7 +1403,6 @@
             document.getElementById('host-actions').classList.add('hidden');
             
             initTTTBoard();
-            if (typeof initVoiceChat === 'function') initVoiceChat();
         };
 
         // --- 7. REALTIME SYNC ENGINE ---
@@ -1569,9 +1523,6 @@
                 } else if (data.currentGame === 'memory') {
                     document.getElementById('game-memory').classList.remove('hidden');
                     updateMemoryUI(data.gameState, isP1);
-                } else if (data.currentGame === 'wordle') {
-                    document.getElementById('game-wordle').classList.remove('hidden');
-                    updateWordleUI(data.gameState, isP1);
                 } else if (data.currentGame === 'uno') {
                     document.getElementById('game-uno').classList.remove('hidden');
                     updateUnoUI(data.gameState, isP1);
@@ -1626,25 +1577,11 @@
                 setTimeout(() => triggerSpeedSignal(), 2000 + Math.random() * 2500);
             }
             else if (gameId === 'memory') {
-                const icons = ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯']; // 10 pairs (20 cards)
+                const icons = ['🚀', '💎', '🍕', '👾', '⚡', '🔮'];
                 const deck = [...icons, ...icons].sort(() => Math.random() - 0.5);
                 initialGameState = { deck: deck, flipped: [], matched: [], p1Score: 0, p2Score: 0, turn: 'p1', winner: null };
             }
-            else if (gameId === 'wordle') {
-                  const words = ['MABAR', 'GAMER', 'TIKUS', 'KUCING', 'SABUN', 'BOTOL', 'GELAS', 'KAPAL', 'MOBIL', 'MOTOR'];
-                  const target = words[Math.floor(Math.random()*words.length)];
-                  initialGameState = { targetWord: target, p1Guesses: [], p2Guesses: [], winner: null };
-              }
-              else if (gameId === 'dots') {
-                  initialGameState = { lines: {}, boxes: {}, p1Score: 0, p2Score: 0, turn: 'p1', winner: null };
-              }
-              else if (gameId === 'seabattle') {
-                  initialGameState = { p1Ships: [], p2Ships: [], p1Guesses: [], p2Guesses: [], phase: 'setup', turn: 'p1', winner: null };
-              }
-              else if (gameId === 'ludo') {
-                  initialGameState = { p1Pos: 0, p2Pos: 0, turn: 'p1', winner: null, diceValue: null };
-              }
-              else if (gameId === 'uno') {
+            else if (gameId === 'uno') {
                 const colors = ['red', 'blue', 'green', 'yellow'];
                 const deck = [];
                 colors.forEach(c => {
@@ -1674,10 +1611,10 @@
                 let startColor = discardPile[0].color;
                 if(startColor === 'wild') startColor = ['red','blue','green','yellow'][Math.floor(Math.random()*4)];
 
-                initialGameState = { deck: deck, discardPile: discardPile, p1Hand: hand1, p2Hand: hand2, turn: 'p1', winner: null, currentColor: startColor, scoreAdded: false, lastTurnTime: Date.now() };
+                initialGameState = { deck: deck, discardPile: discardPile, p1Hand: hand1, p2Hand: hand2, turn: 'p1', winner: null, currentColor: startColor, scoreAdded: false };
             }
 
-            const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match', 'uno': 'Cyber UNO', 'wordle': 'Tebak Kata', 'dots': 'Dots & Boxes', 'seabattle': 'Sea Battle', 'ludo': 'Ludo Mini' };
+            const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match', 'uno': 'Cyber UNO' };
             let currentChat = roomData.chat || [];
             currentChat.push({ type: 'system', msg: `Game [${gameNames[gameId]}] Dimulai!`, time: Date.now() });
 
@@ -2011,104 +1948,7 @@
             }
         };
 
-        // --- 10.5 VOICE CHAT LOGIC (PeerJS) ---
-        let peer = null;
-        let localStream = null;
-        let currentCall = null;
-        let isMicOn = false;
-
-        window.initVoiceChat = () => {
-            document.getElementById('voice-chat-control').classList.remove('hidden');
-            if (peer || typeof Peer === 'undefined') return;
-            peer = new Peer(currentUser.uid);
-            
-            peer.on('open', (id) => {
-                console.log('My peer ID is: ' + id);
-            });
-            
-            peer.on('call', (call) => {
-                if (!localStream) {
-                    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                        localStream = stream;
-                        localStream.getAudioTracks()[0].enabled = isMicOn;
-                        call.answer(localStream);
-                        setupCall(call);
-                    }).catch(err => console.error('Failed to get local stream', err));
-                } else {
-                    call.answer(localStream);
-                    setupCall(call);
-                }
-            });
-        };
-
-        window.toggleMic = () => {
-            isMicOn = !isMicOn;
-            const micIcon = document.getElementById('mic-icon');
-            const btn = document.getElementById('btn-mic-toggle');
-            if (isMicOn) {
-                micIcon.className = 'fas fa-microphone';
-                btn.classList.add('border-cyber-pink');
-                btn.classList.remove('border-cyber-cyan/50');
-            } else {
-                micIcon.className = 'fas fa-microphone-slash';
-                btn.classList.remove('border-cyber-pink');
-                btn.classList.add('border-cyber-cyan/50');
-            }
-            
-            if (localStream) {
-                localStream.getAudioTracks()[0].enabled = isMicOn;
-            } else if (isMicOn) {
-                navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                    localStream = stream;
-                    if (!isHost && roomData && roomData.hostUid) {
-                        currentCall = peer.call(roomData.hostUid, localStream);
-                        setupCall(currentCall);
-                    }
-                }).catch(err => {
-                    console.error('Failed to get local stream', err);
-                    isMicOn = false;
-                    micIcon.className = 'fas fa-microphone-slash';
-                });
-            }
-        };
-
-        const setupCall = (call) => {
-            currentCall = call;
-            call.on('stream', (remoteStream) => {
-                const remoteAudio = document.getElementById('remote-audio');
-                remoteAudio.srcObject = remoteStream;
-                document.getElementById('voice-status-bubble').classList.remove('hidden');
-            });
-            call.on('close', () => {
-                document.getElementById('voice-status-bubble').classList.add('hidden');
-            });
-        };
-
-        window.closeVoiceChat = () => {
-            document.getElementById('voice-chat-control').classList.add('hidden');
-            document.getElementById('voice-status-bubble').classList.add('hidden');
-            if (localStream) {
-                localStream.getTracks().forEach(track => track.stop());
-                localStream = null;
-            }
-            if (currentCall) {
-                currentCall.close();
-                currentCall = null;
-            }
-            if (peer) {
-                peer.destroy();
-                peer = null;
-            }
-            isMicOn = false;
-            document.getElementById('mic-icon').className = 'fas fa-microphone-slash';
-            const btn = document.getElementById('btn-mic-toggle');
-            if(btn) {
-                btn.classList.remove('border-cyber-pink');
-                btn.classList.add('border-cyber-cyan/50');
-            }
-        };
-
-        // --- 11. IN-GAME LOGIC & RENDER ---REACTION CLASH LOGIC ---
+        // --- 11. GAME 4: SPEED REACTION CLASH LOGIC ---
         const triggerSpeedSignal = async () => {
             if (!isHost) return;
             await syncRoomState({
@@ -2271,10 +2111,10 @@
                 const card = document.createElement('div');
                 const isFlipped = state.flipped.includes(i) || state.matched.includes(i);
                 
-                card.className = `flip-card w-14 h-14 sm:w-16 sm:h-16 rounded-2xl glass-card flex items-center justify-center text-xl sm:text-2xl font-bold cursor-pointer transition-all ${isFlipped ? 'flipped border-cyber-cyan bg-cyber-cyan/10' : 'hover:border-cyber-cyan'}`;
+                card.className = `flip-card h-16 rounded-2xl glass-card flex items-center justify-center text-2xl font-bold cursor-pointer transition-all ${isFlipped ? 'flipped border-cyber-cyan bg-cyber-cyan/10' : 'hover:border-cyber-cyan'}`;
                 card.innerHTML = `<div class="flip-card-inner w-full h-full relative">
-                    <div class="flip-card-front w-full h-full absolute flex items-center justify-center text-2xl sm:text-3xl">❓</div>
-                    <div class="flip-card-back w-full h-full absolute flex items-center justify-center text-2xl sm:text-3xl">${icon}</div>
+                    <div class="flip-card-front w-full h-full absolute flex items-center justify-center text-3xl">❓</div>
+                    <div class="flip-card-back w-full h-full absolute flex items-center justify-center text-3xl">${icon}</div>
                 </div>`;
                 card.onclick = () => flipMemoryCard(i);
                 board.appendChild(card);
@@ -2283,111 +2123,6 @@
             const statusTxt = document.getElementById('memory-status');
             const myTurn = (state.turn === 'p1' && isP1) || (state.turn === 'p2' && !isP1);
             statusTxt.innerText = state.winner ? `WINNER: ${state.winner.toUpperCase()}` : (myTurn ? "GILIRAN KAMU MEMBALIK KARTU" : "GILIRAN LAWAN...");
-        };
-
-        // --- GAME 7: WORDLE (TEBAK KATA) ---
-        const updateWordleUI = (state, isP1) => {
-            const p1Grid = document.getElementById('wordle-p1-grid');
-            const p2Grid = document.getElementById('wordle-p2-grid');
-            p1Grid.innerHTML = ''; p2Grid.innerHTML = '';
-            
-            const renderGuesses = (guesses, grid) => {
-                for(let i=0; i<6; i++) {
-                    const row = document.createElement('div');
-                    row.className = "flex gap-1 justify-center w-full";
-                    const guess = guesses[i] || "";
-                    const feedback = getWordleFeedback(guess, state.targetWord);
-                    
-                    for(let j=0; j<5; j++) {
-                        const cell = document.createElement('div');
-                        cell.className = "w-6 h-6 sm:w-8 sm:h-8 border border-white/20 flex items-center justify-center font-bold text-sm sm:text-base rounded-md uppercase";
-                        if(guess[j]) {
-                            cell.innerText = guess[j];
-                            if(feedback[j] === 'correct') cell.classList.add('bg-cyber-green', 'border-cyber-green', 'text-white');
-                            else if(feedback[j] === 'present') cell.classList.add('bg-cyber-yellow', 'border-cyber-yellow', 'text-black');
-                            else cell.classList.add('bg-white/10', 'text-gray-400');
-                        }
-                        row.appendChild(cell);
-                    }
-                    grid.appendChild(row);
-                }
-            };
-            
-            renderGuesses(state.p1Guesses, p1Grid);
-            renderGuesses(state.p2Guesses, p2Grid);
-            
-            const status = document.getElementById('wordle-status');
-            const inp = document.getElementById('wordle-input');
-            if(state.winner) {
-                status.innerText = state.winner === 'draw' ? `SERI! KATA: ${state.targetWord}` : `WINNER: ${state.winner.toUpperCase()}! KATA: ${state.targetWord}`;
-                inp.disabled = true;
-            } else {
-                status.innerText = "TEBAK KATA 5 HURUF!";
-                inp.disabled = false;
-                if(isP1 && state.p1Guesses.length >= 6) inp.disabled = true;
-                if(!isP1 && state.p2Guesses.length >= 6) inp.disabled = true;
-            }
-        };
-
-        const getWordleFeedback = (guess, target) => {
-            if(!guess) return [];
-            let res = Array(5).fill('absent');
-            let tArr = target.split('');
-            for(let i=0; i<5; i++) {
-                if(guess[i] === tArr[i]) {
-                    res[i] = 'correct';
-                    tArr[i] = null;
-                }
-            }
-            for(let i=0; i<5; i++) {
-                if(res[i] !== 'correct' && tArr.includes(guess[i])) {
-                    res[i] = 'present';
-                    tArr[tArr.indexOf(guess[i])] = null;
-                }
-            }
-            return res;
-        };
-
-        window.submitWordle = async () => {
-            AudioEngine.playClick();
-            if(!roomData) return;
-            const state = JSON.parse(JSON.stringify(roomData.gameState));
-            if(state.winner) return;
-            const isP1 = currentUser.uid === roomData.p1.uid;
-            const inp = document.getElementById('wordle-input');
-            let word = inp.value.toUpperCase().trim();
-            
-            if(word.length !== 5) {
-                showToast("Harus 5 huruf!", "error");
-                return;
-            }
-            
-            const myGuessesField = isP1 ? 'p1Guesses' : 'p2Guesses';
-            const oppGuessesField = isP1 ? 'p2Guesses' : 'p1Guesses';
-            if(state[myGuessesField].length >= 6) return;
-            
-            state[myGuessesField].push(word);
-            inp.value = '';
-            
-            if(word === state.targetWord) {
-                state.winner = isP1 ? 'p1' : 'p2';
-            } else if (state[myGuessesField].length === 6 && state[oppGuessesField].length === 6) {
-                state.winner = 'draw';
-            }
-            
-            if (state.winner) {
-                let p1Score = roomData.p1.score;
-                let p2Score = roomData.p2.score;
-                if(state.winner === 'p1') { p1Score++; if(isP1) addXP(30); }
-                if(state.winner === 'p2') { p2Score++; if(!isP1) addXP(30); }
-                await syncRoomState({
-                    gameState: state,
-                    'p1.score': p1Score,
-                    'p2.score': p2Score
-                });
-            } else {
-                await syncRoomState({ gameState: state });
-            }
         };
 
         // --- 12.5 GAME 6: UNO LOGIC ---
@@ -2446,59 +2181,6 @@
                 };
                 handContainer.appendChild(cDiv);
             });
-
-            // Timer Logic
-            if (window.unoTimerInterval) clearInterval(window.unoTimerInterval);
-            window.unoTimerInterval = setInterval(() => {
-                if (!roomData || roomData.currentGame !== 'uno' || state.winner) {
-                    clearInterval(window.unoTimerInterval);
-                    return;
-                }
-                const elapsed = Date.now() - (state.lastTurnTime || Date.now());
-                const remaining = Math.max(0, 30000 - elapsed);
-                const sec = Math.ceil(remaining / 1000);
-                const timeStr = `00:${sec < 10 ? '0'+sec : sec}`;
-                
-                const p1T = document.getElementById('uno-p1-timer');
-                const p2T = document.getElementById('uno-p2-timer');
-                if (p1T && p2T) {
-                    p1T.className = "px-2 py-0.5 rounded bg-white/10 text-white font-mono font-bold text-xs";
-                    p2T.className = "px-2 py-0.5 rounded bg-white/10 text-white font-mono font-bold text-xs";
-                    p1T.innerText = "--:--";
-                    p2T.innerText = "--:--";
-                    
-                    const activeTimer = state.turn === 'p1' ? (isP1 ? p1T : p2T) : (!isP1 ? p1T : p2T);
-                    activeTimer.innerText = timeStr;
-                    activeTimer.className = "px-2 py-0.5 rounded bg-cyber-pink/20 text-cyber-pink font-mono font-bold text-xs animate-pulse";
-                    
-                    if (sec <= 5 && sec > 0 && activeTimer.innerText !== "--:--") {
-                        AudioEngine.playTick();
-                    }
-                }
-
-                if (remaining <= 0 && isHost && !state.winner) {
-                    clearInterval(window.unoTimerInterval);
-                    window.autoPlayUnoTurn();
-                }
-            }, 1000);
-        };
-
-        window.autoPlayUnoTurn = async () => {
-            if (!isHost || !roomData) return;
-            let state = JSON.parse(JSON.stringify(roomData.gameState));
-            if (state.winner) return;
-
-            const oppHandField = state.turn === 'p1' ? 'p1Hand' : 'p2Hand';
-            const drawn = state.deck.splice(0, 1);
-            state[oppHandField].push(...drawn);
-            
-            if (state.deck.length < 5) {
-                const oldDiscard = state.discardPile.splice(0, state.discardPile.length - 1);
-                state.deck.push(...oldDiscard.sort(() => Math.random() - 0.5));
-            }
-
-            state.turn = state.turn === 'p1' ? 'p2' : 'p1';
-            finishUnoMove(state);
         };
 
         window.playUnoCard = async (cardId) => {
@@ -2609,8 +2291,6 @@
                 state.scoreAdded = true;
                 if (state.winner === 'p1') { p1Score++; if(currentUser.uid === roomData.p1.uid) addXP(50); }
                 if (state.winner === 'p2') { p2Score++; if(currentUser.uid === roomData.p2.uid) addXP(50); }
-            } else if (!state.winner) {
-                state.lastTurnTime = Date.now();
             }
 
             if (isBotMode) {
@@ -2833,37 +2513,7 @@
             document.getElementById('modal-help').classList.add('hidden');
         };
 
-        // --- 15. THEME SWITCHER LOGIC ---
-        window.toggleTheme = () => {
-            const htmlTag = document.documentElement;
-            const isDark = htmlTag.classList.contains('dark');
-            const themeIcon = document.getElementById('theme-icon');
-            if (isDark) {
-                htmlTag.classList.remove('dark');
-                htmlTag.classList.add('light-theme');
-                if (themeIcon) themeIcon.className = 'fas fa-moon';
-                localStorage.setItem('arcade_theme', 'light');
-            } else {
-                htmlTag.classList.remove('light-theme');
-                htmlTag.classList.add('dark');
-                if (themeIcon) themeIcon.className = 'fas fa-sun';
-                localStorage.setItem('arcade_theme', 'dark');
-            }
-            if (window.AudioEngine) window.AudioEngine.playClick();
-        };
-
-        // Initialize theme on load
-        setTimeout(() => {
-            const savedTheme = localStorage.getItem('arcade_theme');
-            if (savedTheme === 'light') {
-                document.documentElement.classList.remove('dark');
-                document.documentElement.classList.add('light-theme');
-                const themeIcon = document.getElementById('theme-icon');
-                if (themeIcon) themeIcon.className = 'fas fa-moon';
-            }
-        }, 100);
-
-        // --- 16. KEYBOARD SHORTCUTS CONTROLLER ---
+        // --- 15. KEYBOARD SHORTCUTS CONTROLLER ---
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT') return;
 
