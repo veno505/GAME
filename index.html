@@ -109,7 +109,7 @@
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             overflow: hidden;
-            height: 100vh;
+            height: 100dvh;
             width: 100vw;
             position: relative;
         }
@@ -474,10 +474,10 @@
         </main>
 
         <!-- SCREEN 3: GAME ROOM & ARENA -->
-        <main id="screen-room" class="flex-grow flex flex-col z-40 hidden overflow-hidden relative">
+        <main id="screen-room" class="flex-grow flex flex-col z-40 hidden overflow-y-auto overflow-x-hidden relative no-scrollbar">
             
             <!-- Room Top Header -->
-            <div class="glass-panel px-4 py-3 rounded-b-3xl flex justify-between items-center shrink-0 border-t-0 shadow-lg relative z-20">
+            <div class="glass-panel px-4 py-3 rounded-b-3xl flex justify-between items-center shrink-0 border-t-0 shadow-lg sticky top-0 z-50 bg-opacity-90 backdrop-blur-md">
                 <button onclick="leaveRoom()" class="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-gray-300 hover:text-white active:scale-90 transition">
                     <i class="fas fa-arrow-left"></i>
                 </button>
@@ -554,7 +554,7 @@
             </div>
 
             <!-- MAIN ARENA CONTENT AREA -->
-            <div class="flex-grow flex flex-col items-center justify-center p-3 relative w-full max-w-md mx-auto overflow-y-auto">
+            <div class="flex-grow flex flex-col items-center justify-start p-3 relative w-full max-w-md mx-auto">
                 
                 <!-- LOBBY GAME SELECTOR -->
                 <div id="game-selector" class="w-full flex flex-col gap-3 pb-24">
