@@ -84,15 +84,15 @@
         }
 
         .light-theme {
-            /* Ghibli Light Mode (Cream) */
-            --bg-primary: #FDFBF7;    /* Warm Cream */
-            --bg-secondary: #F4EFE6;  /* Slightly darker cream */
-            --text-main: #2D3748;
-            --text-muted: #718096;
-            --border-light: rgba(0, 0, 0, 0.1);
-            --card-bg: rgba(253, 251, 247, 0.9);
-            --accent-primary: #6B46C1;
-            --accent-secondary: #D53F8C;
+            /* Light Mode (Krem Karung Goni) */
+            --bg-primary: #D4C5B3;    /* Burlap Cream */
+            --bg-secondary: #C5B4A1;  /* Darker Burlap */
+            --text-main: #3E3222;
+            --text-muted: #7A6953;
+            --border-light: rgba(62, 50, 34, 0.15);
+            --card-bg: rgba(212, 197, 179, 0.9);
+            --accent-primary: #8C6A46;
+            --accent-secondary: #A65D48;
             --shadow-color: rgba(0, 0, 0, 0.15);
         }
 
@@ -654,23 +654,25 @@
                 </div>
 
                 <!-- GAME 1: ROCK PAPER SCISSORS -->
-                <div id="game-rps" class="w-full hidden flex-col items-center">
-                    <div class="glass-panel px-4 py-1.5 rounded-full border-cyber-cyan mb-6">
-                        <h3 class="text-xs font-mono tracking-widest text-cyber-cyan uppercase">Rock Paper Scissors Extreme</h3>
-                    </div>
-                    
-                    <div class="w-full flex justify-between items-center mb-8 px-2">
-                        <div id="rps-p1-choice" class="text-5xl bg-dark-base p-2 rounded-2xl border-2 border-white/20 h-24 w-24 flex items-center justify-center shadow-lg transition-all">❓</div>
-                        <div id="rps-result" class="text-xl font-heading font-black italic text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 scale-0 transition-transform duration-300 text-center w-24 leading-tight">VS</div>
-                        <div id="rps-p2-choice" class="text-5xl bg-dark-base p-2 rounded-2xl border-2 border-white/20 h-24 w-24 flex items-center justify-center shadow-lg transition-all">❓</div>
+                <div id="game-rps" class="w-full h-full hidden flex-col items-center justify-between pb-4">
+                    <div class="flex flex-col items-center w-full mt-2">
+                        <div class="glass-panel px-4 py-1.5 rounded-full border-cyber-cyan mb-6">
+                            <h3 class="text-xs font-mono tracking-widest text-cyber-cyan uppercase">Rock Paper Scissors Extreme</h3>
+                        </div>
+                        
+                        <div class="w-full flex justify-between items-center mb-6 px-2 max-w-[340px]">
+                            <div id="rps-p1-choice" class="text-5xl bg-dark-base p-2 rounded-2xl border-2 border-white/20 h-24 w-24 flex items-center justify-center shadow-lg transition-all">❓</div>
+                            <div id="rps-result" class="text-xl font-heading font-black italic text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 scale-0 transition-transform duration-300 text-center w-24 leading-tight">VS</div>
+                            <div id="rps-p2-choice" class="text-5xl bg-dark-base p-2 rounded-2xl border-2 border-white/20 h-24 w-24 flex items-center justify-center shadow-lg transition-all">❓</div>
+                        </div>
+
+                        <p id="rps-status" class="mb-2 font-mono text-xs text-gray-400 uppercase tracking-widest text-center h-5">PILIH SENJATA (Shortcut 1, 2, 3)</p>
                     </div>
 
-                    <p id="rps-status" class="mb-5 font-mono text-xs text-gray-400 uppercase tracking-widest text-center h-5">PILIH SENJATA (Shortcut 1, 2, 3)</p>
-
-                    <div class="grid grid-cols-3 gap-3 w-full max-w-[340px] px-2 pb-8" style="padding-bottom: calc(2rem + env(safe-area-inset-bottom)); z-index: 10;">
-                        <button onclick="playRPS('rock')" class="rps-btn text-4xl sm:text-5xl glass-panel py-5 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center">✊</button>
-                        <button onclick="playRPS('paper')" class="rps-btn text-4xl sm:text-5xl glass-panel py-5 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center">🖐️</button>
-                        <button onclick="playRPS('scissors')" class="rps-btn text-4xl sm:text-5xl glass-panel py-5 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center">✌️</button>
+                    <div class="grid grid-cols-3 gap-3 w-full max-w-[340px] px-2 mt-auto" style="z-index: 10;">
+                        <button onclick="playRPS('rock')" class="rps-btn text-4xl sm:text-5xl glass-panel py-6 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center bg-white/5">✊</button>
+                        <button onclick="playRPS('paper')" class="rps-btn text-4xl sm:text-5xl glass-panel py-6 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center bg-white/5">🖐️</button>
+                        <button onclick="playRPS('scissors')" class="rps-btn text-4xl sm:text-5xl glass-panel py-6 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center bg-white/5">✌️</button>
                     </div>
                 </div>
 
@@ -1631,8 +1633,10 @@
                 initialGameState = { deck: deck, flipped: [], matched: [], p1Score: 0, p2Score: 0, turn: 'p1', winner: null };
             }
             else if (gameId === 'wordle') {
-                  const words = ['MABAR', 'GAMER', 'TIKUS', 'KUCING', 'SABUN', 'BOTOL', 'GELAS', 'KAPAL', 'MOBIL', 'MOTOR'];
-                  const target = words[Math.floor(Math.random()*words.length)];
+                  const words = ['MABAR', 'GAMER', 'TIKUS', 'LEBAH', 'SABUN', 'BOTOL', 'GELAS', 'KAPAL', 'MOBIL', 'MOTOR', 'KAMUS', 'LAMPU', 'PINTU', 'KASUR', 'MEJA', 'KURSI'];
+                  // Filter strictly 5 letters just in case
+                  const words5 = words.filter(w => w.length === 5);
+                  const target = words5[Math.floor(Math.random()*words5.length)];
                   initialGameState = { targetWord: target, p1Guesses: [], p2Guesses: [], winner: null };
               }
               else if (gameId === 'dots') {
@@ -2063,6 +2067,9 @@
                     if (!isHost && roomData && roomData.hostUid) {
                         currentCall = peer.call(roomData.hostUid, localStream);
                         setupCall(currentCall);
+                    } else if (isHost && roomData && roomData.p2 && roomData.p2.uid) {
+                        currentCall = peer.call(roomData.p2.uid, localStream);
+                        setupCall(currentCall);
                     }
                 }).catch(err => {
                     console.error('Failed to get local stream', err);
@@ -2077,6 +2084,7 @@
             call.on('stream', (remoteStream) => {
                 const remoteAudio = document.getElementById('remote-audio');
                 remoteAudio.srcObject = remoteStream;
+                remoteAudio.play().catch(e => console.error("Autoplay prevented:", e));
                 document.getElementById('voice-status-bubble').classList.remove('hidden');
             });
             call.on('close', () => {
@@ -2319,13 +2327,17 @@
             const status = document.getElementById('wordle-status');
             const inp = document.getElementById('wordle-input');
             if(state.winner) {
-                status.innerText = state.winner === 'draw' ? `SERI! KATA: ${state.targetWord}` : `WINNER: ${state.winner.toUpperCase()}! KATA: ${state.targetWord}`;
+                status.innerText = state.winner === 'draw' ? `GAME OVER! KATA BENAR: ${state.targetWord}` : `WINNER: ${state.winner.toUpperCase()}! KATA BENAR: ${state.targetWord}`;
                 inp.disabled = true;
             } else {
-                status.innerText = "TEBAK KATA 5 HURUF!";
+                status.innerText = "TEBAK KATA 5 HURUF (INDONESIA)";
                 inp.disabled = false;
-                if(isP1 && state.p1Guesses.length >= 6) inp.disabled = true;
-                if(!isP1 && state.p2Guesses.length >= 6) inp.disabled = true;
+                
+                const myGuesses = isP1 ? state.p1Guesses : state.p2Guesses;
+                if (myGuesses.length >= 6) {
+                    inp.disabled = true;
+                    status.innerText = `GAGAL! KATA BENAR: ${state.targetWord}`;
+                }
             }
         };
 
@@ -2455,7 +2467,7 @@
                     return;
                 }
                 const elapsed = Date.now() - (state.lastTurnTime || Date.now());
-                const remaining = Math.max(0, 30000 - elapsed);
+                const remaining = Math.max(0, 15000 - elapsed);
                 const sec = Math.ceil(remaining / 1000);
                 const timeStr = `00:${sec < 10 ? '0'+sec : sec}`;
                 
