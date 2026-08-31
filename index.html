@@ -2804,6 +2804,10 @@
 
 
         // --- 12b. DOTS & BOXES LOGIC ---
+        window.updateGameUI = () => {
+            syncRoomState({ 'gameState': roomData.gameState });
+        };
+
         const updateDotsUI = (state, isP1) => {
             document.getElementById('dots-status').innerText = (state.turn === 'p1' && isP1) || (state.turn === 'p2' && !isP1) ? 'Giliranmu' : 'Menunggu Lawan...';
             document.getElementById('dots-p1-score').innerText = state.p1Score;
