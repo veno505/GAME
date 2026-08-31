@@ -654,13 +654,13 @@
                 </div>
 
                 <!-- GAME 1: ROCK PAPER SCISSORS -->
-                <div id="game-rps" class="w-full h-full hidden flex-col items-center justify-between pb-4">
-                    <div class="flex flex-col items-center w-full mt-2">
+                <div id="game-rps" class="w-full hidden flex-col items-center pb-12">
+                    <div class="flex flex-col items-center w-full mt-4">
                         <div class="glass-panel px-4 py-1.5 rounded-full border-cyber-cyan mb-6">
                             <h3 class="text-xs font-mono tracking-widest text-cyber-cyan uppercase">Rock Paper Scissors Extreme</h3>
                         </div>
                         
-                        <div class="w-full flex justify-between items-center mb-6 px-2 max-w-[340px]">
+                        <div class="w-full flex justify-between items-center mb-8 px-2 max-w-[340px]">
                             <div id="rps-p1-choice" class="text-5xl bg-dark-base p-2 rounded-2xl border-2 border-white/20 h-24 w-24 flex items-center justify-center shadow-lg transition-all">❓</div>
                             <div id="rps-result" class="text-xl font-heading font-black italic text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 scale-0 transition-transform duration-300 text-center w-24 leading-tight">VS</div>
                             <div id="rps-p2-choice" class="text-5xl bg-dark-base p-2 rounded-2xl border-2 border-white/20 h-24 w-24 flex items-center justify-center shadow-lg transition-all">❓</div>
@@ -669,7 +669,7 @@
                         <p id="rps-status" class="mb-2 font-mono text-xs text-gray-400 uppercase tracking-widest text-center h-5">PILIH SENJATA (Shortcut 1, 2, 3)</p>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-3 w-full max-w-[340px] px-2 mt-auto" style="z-index: 10;">
+                    <div class="grid grid-cols-3 gap-3 w-full max-w-[340px] px-2 mt-12" style="z-index: 10;">
                         <button onclick="playRPS('rock')" class="rps-btn text-4xl sm:text-5xl glass-panel py-6 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center bg-white/5">✊</button>
                         <button onclick="playRPS('paper')" class="rps-btn text-4xl sm:text-5xl glass-panel py-6 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center bg-white/5">🖐️</button>
                         <button onclick="playRPS('scissors')" class="rps-btn text-4xl sm:text-5xl glass-panel py-6 rounded-2xl active:scale-90 transition border-white/10 hover:border-cyber-cyan flex justify-center items-center bg-white/5">✌️</button>
@@ -750,7 +750,8 @@
                     <div class="glass-panel px-4 py-1 rounded-full border-cyber-cyan mb-3">
                         <h3 class="text-xs font-mono tracking-widest text-cyber-cyan uppercase">Tebak Kata</h3>
                     </div>
-                    <p id="wordle-status" class="mb-3 font-mono text-xs uppercase tracking-widest text-center px-3 py-1 rounded-xl bg-white/5 border border-white/10">Tebak kata 5 huruf!</p>
+                    <p id="wordle-status" class="mb-1 font-mono text-xs uppercase tracking-widest text-center px-3 py-1 rounded-xl bg-white/5 border border-white/10">Tebak kata 5 huruf!</p>
+                    <p id="wordle-hint" class="mb-3 font-mono text-[10px] text-yellow-400 text-center px-3 italic"></p>
                     <div class="flex gap-4 w-full max-w-[360px] justify-between px-2 mb-2">
                         <div class="flex flex-col items-center w-1/2">
                             <span class="text-cyber-cyan font-bold text-xs mb-1">P1</span>
@@ -1514,7 +1515,7 @@
             renderChat(data.chat || []);
 
             // Hide games
-            ['game-selector', 'ready-container', 'game-rps', 'game-dice', 'game-ttt', 'game-speed', 'game-memory', 'game-uno', 'host-actions'].forEach(id => {
+            ['game-selector', 'ready-container', 'game-rps', 'game-dice', 'game-ttt', 'game-speed', 'game-memory', 'game-uno', 'game-wordle', 'game-dots', 'game-seabattle', 'game-ludo', 'host-actions'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.add('hidden');
             });
@@ -1633,11 +1634,37 @@
                 initialGameState = { deck: deck, flipped: [], matched: [], p1Score: 0, p2Score: 0, turn: 'p1', winner: null };
             }
             else if (gameId === 'wordle') {
-                  const words = ['MABAR', 'GAMER', 'TIKUS', 'LEBAH', 'SABUN', 'BOTOL', 'GELAS', 'KAPAL', 'MOBIL', 'MOTOR', 'KAMUS', 'LAMPU', 'PINTU', 'KASUR', 'MEJA', 'KURSI'];
-                  // Filter strictly 5 letters just in case
-                  const words5 = words.filter(w => w.length === 5);
-                  const target = words5[Math.floor(Math.random()*words5.length)];
-                  initialGameState = { targetWord: target, p1Guesses: [], p2Guesses: [], winner: null };
+                  const words = [
+                      { word: 'MABAR', hint: 'Main bareng game' },
+                      { word: 'GAMER', hint: 'Orang yang suka main game' },
+                      { word: 'TIKUS', hint: 'Hewan pengerat, musuh kucing' },
+                      { word: 'LEBAH', hint: 'Serangga penghasil madu' },
+                      { word: 'SABUN', hint: 'Benda untuk mandi biar wangi' },
+                      { word: 'BOTOL', hint: 'Tempat menyimpan air minum' },
+                      { word: 'GELAS', hint: 'Wadah untuk minum' },
+                      { word: 'KAPAL', hint: 'Kendaraan yang ada di laut' },
+                      { word: 'MOBIL', hint: 'Kendaraan roda empat' },
+                      { word: 'MOTOR', hint: 'Kendaraan roda dua' },
+                      { word: 'KAMUS', hint: 'Buku tebal berisi arti kata' },
+                      { word: 'LAMPU', hint: 'Benda yang bersinar di kegelapan' },
+                      { word: 'PINTU', hint: 'Jalan keluar masuk rumah' },
+                      { word: 'KASUR', hint: 'Tempat empuk untuk tidur' },
+                      { word: 'KURSI', hint: 'Tempat untuk duduk santai' },
+                      { word: 'KATAK', hint: 'Hewan amfibi yang suka melompat' },
+                      { word: 'KIPAS', hint: 'Benda berputar penyejuk udara' },
+                      { word: 'BURSA', hint: 'Tempat jual beli saham' },
+                      { word: 'PAPAN', hint: 'Benda datar dari kayu' },
+                      { word: 'PASAR', hint: 'Tempat orang berjualan' },
+                      { word: 'PAGAR', hint: 'Pembatas halaman rumah' },
+                      { word: 'PANCI', hint: 'Alat untuk memasak air/kuah' },
+                      { word: 'KUNCI', hint: 'Alat untuk membuka pintu' },
+                      { word: 'BUAYA', hint: 'Reptil ganas di sungai' },
+                      { word: 'BADUT', hint: 'Orang lucu yang menghibur' },
+                      { word: 'KAWAN', hint: 'Teman sepermainan' },
+                      { word: 'LAWAN', hint: 'Musuh dalam pertandingan' }
+                  ];
+                  const target = words[Math.floor(Math.random()*words.length)];
+                  initialGameState = { targetWord: target.word, hint: target.hint, p1Guesses: [], p2Guesses: [], winner: null };
               }
               else if (gameId === 'dots') {
                   initialGameState = { lines: {}, boxes: {}, p1Score: 0, p2Score: 0, turn: 'p1', winner: null };
@@ -2338,6 +2365,11 @@
                     inp.disabled = true;
                     status.innerText = `GAGAL! KATA BENAR: ${state.targetWord}`;
                 }
+            }
+
+            const hint = document.getElementById('wordle-hint');
+            if (hint && state.hint) {
+                hint.innerText = `PETUNJUK: ${state.hint.toUpperCase()}`;
             }
         };
 
