@@ -1442,6 +1442,34 @@
 
                     <div id="host-game-list"
                         class="flex flex-col gap-2.5 opacity-50 pointer-events-none transition-all duration-300">
+                        <!-- NEW 3D: Air Hockey -->
+                        <button onclick="startGame('airhockey3d')"
+                            class="glass-card p-3.5 rounded-3xl flex items-center gap-3 hover:border-theme-accent1 transition text-left group relative">
+                            <span class="absolute -top-2 right-3 text-[9px] font-mono font-extrabold px-2 py-0.5 rounded-full text-white animate-pulse"
+                                style="background:linear-gradient(90deg,#FF2E93,#FFB800);box-shadow:0 0 12px #FF2E93;">NEW 3D 🔥</span>
+                            <div
+                                class="text-2xl bg-dark-base p-2.5 rounded-3xl border border-white/10 group-hover:border-theme-accent1">
+                                🏒</div>
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-theme-main">3D CyberNeon Air Hockey</h4>
+                                <p class="text-xs text-theme-muted font-mono">Duel Puck Neon 3D, Rebut 5 Gol</p>
+                            </div>
+                        </button>
+
+                        <!-- NEW 3D: Hexa-Fall -->
+                        <button onclick="startGame('hexafall3d')"
+                            class="glass-card p-3.5 rounded-3xl flex items-center gap-3 hover:border-theme-accent2 transition text-left group relative">
+                            <span class="absolute -top-2 right-3 text-[9px] font-mono font-extrabold px-2 py-0.5 rounded-full text-white animate-pulse"
+                                style="background:linear-gradient(90deg,#7000FF,#00F0FF);box-shadow:0 0 12px #7000FF;">3D ARENA 🎮</span>
+                            <div
+                                class="text-2xl bg-dark-base p-2.5 rounded-3xl border border-white/10 group-hover:border-theme-accent2">
+                                ⬡</div>
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-theme-main">3D Hexa-Fall Survival</h4>
+                                <p class="text-xs text-theme-muted font-mono">Jangan Jatuh ke Jurang Angkasa!</p>
+                            </div>
+                        </button>
+
                         <!-- 1. Rock Paper Scissors -->
                         <button onclick="startGame('rps')"
                             class="glass-card p-3.5 rounded-3xl flex items-center gap-3 hover:border-theme-accent1 transition text-left group">
@@ -1829,6 +1857,50 @@
                     <button id="btn-handslap-action" onclick="handslapAction()" class="btn-cyber-primary mt-8 px-12 py-4 hidden">ATTACK!</button>
                 </div>
 
+                <!-- GAME 12: 3D CYBERNEON AIR HOCKEY -->
+                <div id="game-airhockey3d" class="w-full hidden flex-col items-center pb-12">
+                    <div class="glass-panel px-4 py-1 rounded-full border-theme-accent1 mb-3">
+                        <h3 class="text-xs font-mono tracking-widest text-theme-accent1 uppercase">3D CyberNeon Air Hockey</h3>
+                    </div>
+                    <p id="ah3d-status"
+                        class="mb-2 font-mono text-xs uppercase tracking-widest text-center px-3 py-1 rounded-3xl bg-white/5 border border-white/10">
+                        Geser kiri-kanan! Target 5 gol</p>
+                    <div class="flex justify-between w-full max-w-[360px] px-2 mb-2 font-bold font-mono text-sm">
+                        <span class="text-theme-accent1">P1: <span id="ah3d-p1-goals">0</span></span>
+                        <span class="text-theme-accent2">P2: <span id="ah3d-p2-goals">0</span></span>
+                    </div>
+                    <div class="relative w-full max-w-[360px] rounded-3xl overflow-hidden border border-cyan-400/40"
+                        style="aspect-ratio:3/4;touch-action:none;box-shadow:0 0 30px rgba(0,240,255,.35);">
+                        <canvas id="ah3d-canvas" class="w-full h-full block" style="touch-action:none;"></canvas>
+                    </div>
+                </div>
+
+                <!-- GAME 13: 3D HEXA-FALL SURVIVAL -->
+                <div id="game-hexafall3d" class="w-full hidden flex-col items-center pb-12">
+                    <div class="glass-panel px-4 py-1 rounded-full border-theme-accent2 mb-3">
+                        <h3 class="text-xs font-mono tracking-widest text-theme-accent2 uppercase">3D Hexa-Fall Survival</h3>
+                    </div>
+                    <p id="hf3d-status"
+                        class="mb-2 font-mono text-xs uppercase tracking-widest text-center px-3 py-1 rounded-3xl bg-white/5 border border-white/10">
+                        Gerak terus! Pijakan merah jatuh 1 detik</p>
+                    <div class="relative w-full max-w-[360px] rounded-3xl overflow-hidden border border-purple-400/40"
+                        style="aspect-ratio:1/1;box-shadow:0 0 30px rgba(112,0,255,.4);">
+                        <canvas id="hf3d-canvas" class="w-full h-full block"></canvas>
+                    </div>
+                    <div id="hf3d-dpad" class="grid grid-cols-3 gap-2 mt-3 w-[216px]" style="touch-action:manipulation;">
+                        <button data-hf="NW" class="glass-card rounded-3xl py-3 text-xl font-bold text-theme-accent1 active:scale-90 transition">↖</button>
+                        <div></div>
+                        <button data-hf="NE" class="glass-card rounded-3xl py-3 text-xl font-bold text-theme-accent1 active:scale-90 transition">↗</button>
+                        <button data-hf="W" class="glass-card rounded-3xl py-3 text-xl font-bold text-theme-accent1 active:scale-90 transition">←</button>
+                        <div class="flex items-center justify-center text-2xl">⬡</div>
+                        <button data-hf="E" class="glass-card rounded-3xl py-3 text-xl font-bold text-theme-accent1 active:scale-90 transition">→</button>
+                        <button data-hf="SW" class="glass-card rounded-3xl py-3 text-xl font-bold text-theme-accent1 active:scale-90 transition">↙</button>
+                        <div></div>
+                        <button data-hf="SE" class="glass-card rounded-3xl py-3 text-xl font-bold text-theme-accent1 active:scale-90 transition">↘</button>
+                    </div>
+                    <p class="text-[10px] font-mono text-theme-muted mt-2">Keyboard: Q E (atas) · A D (samping) · Z C (bawah)</p>
+                </div>
+
                 <!-- GAME 11: PULL THE ROPE -->
                 <div id="game-rope" class="w-full hidden flex-col items-center pb-12">
                     <div class="glass-panel px-4 py-1 rounded-full border-theme-accent2 mb-3">
@@ -2050,7 +2122,8 @@
         const VS_GAME_NAMES = {
             rps: 'Rock Paper Scissors', dice: 'Quantum Dice', tictactoe: 'Tic-Tac-Toe', speed: 'Speed Reaction',
             memory: 'Memory Match', uno: 'Cyber UNO', wordle: 'Tebak Kata', dots: 'Dots & Boxes',
-            seabattle: 'Sea Battle', ludo: 'Ludo Mini', handslap: 'Hand Slap', rope: 'Tug of Rope'
+            seabattle: 'Sea Battle', ludo: 'Ludo Mini', handslap: 'Hand Slap', rope: 'Tug of Rope',
+            airhockey3d: '3D CyberNeon Air Hockey', hexafall3d: '3D Hexa-Fall Survival'
         };
         let vsAudio = null;
         let vsPromise = null;
@@ -2776,7 +2849,7 @@
             renderChat(data.chat || []);
 
             // Hide games
-            ['game-selector', 'ready-container', 'game-rps', 'game-dice', 'game-ttt', 'game-speed', 'game-memory', 'game-uno', 'game-wordle', 'game-dots', 'game-seabattle', 'game-ludo', 'game-handslap', 'game-rope', 'host-actions'].forEach(id => {
+            ['game-selector', 'ready-container', 'game-rps', 'game-dice', 'game-ttt', 'game-speed', 'game-memory', 'game-uno', 'game-wordle', 'game-dots', 'game-seabattle', 'game-ludo', 'game-handslap', 'game-rope', 'game-airhockey3d', 'game-hexafall3d', 'host-actions'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.add('hidden');
             });
@@ -2851,6 +2924,12 @@
                 } else if (data.currentGame === 'handslap') {
                     document.getElementById('game-handslap').classList.remove('hidden');
                     updateHandslapUI(data.gameState, isP1);
+                } else if (data.currentGame === 'airhockey3d') {
+                    document.getElementById('game-airhockey3d').classList.remove('hidden');
+                    updateAirHockey3DUI(data.gameState, isP1);
+                } else if (data.currentGame === 'hexafall3d') {
+                    document.getElementById('game-hexafall3d').classList.remove('hidden');
+                    updateHexaFall3DUI(data.gameState, isP1);
                 } else if (data.currentGame === 'rope') {
                     document.getElementById('game-rope').classList.remove('hidden');
                     updateRopeUI(data.gameState, isP1);
@@ -2958,6 +3037,12 @@
             else if (gameId === 'rope') {
                 initialGameState = { ropePos: 50, winner: null };
             }
+            else if (gameId === 'airhockey3d') {
+                initialGameState = { sid: Date.now(), p1PadX: 0, p2PadX: 0, puck: { x: 0, z: 0, vx: 0, vz: 0, t: 0 }, p1Goals: 0, p2Goals: 0, winner: null };
+            }
+            else if (gameId === 'hexafall3d') {
+                initialGameState = { sid: Date.now(), tiles: {}, p1: { c: 1, r: 5, n: 0 }, p2: { c: 4, r: 0, n: 0 }, winner: null };
+            }
             else if (gameId === 'uno') {
                 const colors = ['red', 'blue', 'green', 'yellow'];
                 const deck = [];
@@ -2991,7 +3076,7 @@
                 initialGameState = { deck: deck, discardPile: discardPile, p1Hand: hand1, p2Hand: hand2, turn: 'p1', winner: null, currentColor: startColor, scoreAdded: false, lastTurnTime: Date.now() };
             }
 
-            const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match', 'uno': 'Cyber UNO', 'wordle': 'Tebak Kata', 'dots': 'Dots & Boxes', 'seabattle': 'Sea Battle', 'ludo': 'Ludo Mini' };
+            const gameNames = { 'rps': 'Rock Paper Scissors', 'dice': 'Quantum Dice', 'tictactoe': 'Tic-Tac-Toe', 'speed': 'Speed Reaction', 'memory': 'Memory Match', 'uno': 'Cyber UNO', 'wordle': 'Tebak Kata', 'dots': 'Dots & Boxes', 'seabattle': 'Sea Battle', 'ludo': 'Ludo Mini', 'handslap': 'Handslap Reflex', 'rope': 'Pull the Rope', 'airhockey3d': '3D CyberNeon Air Hockey', 'hexafall3d': '3D Hexa-Fall Survival' };
             let currentChat = roomData.chat || [];
             currentChat.push({ type: 'system', msg: `Game [${gameNames[gameId]}] Dimulai!`, time: Date.now() });
 
@@ -4139,7 +4224,28 @@
                 }
                 updateGameUI();
             } else {
-                // Firebase logic not fully implemented in prompt for brevity, assuming bot mode mostly or similar Firebase write
+                // Multiplayer online: validasi giliran, hitung kotak, lalu tulis ke Firebase
+                const state = JSON.parse(JSON.stringify(roomData.gameState));
+                const me = isP1 ? 'p1' : 'p2';
+                if (state.winner || state.turn !== me) return;
+                state.lines = state.lines || {};
+                state.boxes = state.boxes || {};
+                state.p1Score = state.p1Score || 0;
+                state.p2Score = state.p2Score || 0;
+                if (state.lines[lineId]) return;
+
+                state.lines[lineId] = me;
+                if (!checkDotsBoxes(state, me)) state.turn = isP1 ? 'p2' : 'p1';
+
+                const fields = { gameState: state };
+                if (checkDotsGameOver(state)) {
+                    state.winner = state.p1Score > state.p2Score ? 'p1' : (state.p2Score > state.p1Score ? 'p2' : 'draw');
+                    if (state.winner !== 'draw') {
+                        fields[`${state.winner}.score`] = (roomData[state.winner]?.score || 0) + 1;
+                        if (state.winner === me) addXP(30);
+                    }
+                }
+                await syncRoomState(fields);
             }
         };
 
@@ -4218,77 +4324,108 @@
             if (state.phase === 'setup') {
                 btn.style.display = 'block';
                 btn.innerText = myShips.length === 4 ? 'READY!' : `Tempatkan ${4 - myShips.length} Kapal`;
-                btn.disabled = myShips.length !== 4;
+                // Multiplayer: setelah READY, kunci tombol & tunggu lawan. Host menyalakan fase 'play' bila keduanya siap.
+                const iAmReady = !isBotMode && (isP1 ? state.p1Ready : state.p2Ready);
+                if (iAmReady) { btn.innerText = 'MENUNGGU LAWAN...'; btn.disabled = true; }
+                else btn.disabled = myShips.length !== 4;
+                if (isHost && !isBotMode && state.p1Ready && state.p2Ready) syncRoomState({ 'gameState.phase': 'play' });
             } else {
                 btn.style.display = 'none';
             }
         };
 
-        window.placeSeaBattleShip = (id) => {
+        window.placeSeaBattleShip = async (id) => {
             AudioEngine.playClick();
-            if (!currentRoomId) return;
-            const isP1 = currentUser.uid === roomData?.p1?.uid;
-            let state = roomData.gameState;
+            if (!currentRoomId || !roomData) return;
+            const state = roomData.gameState;
+            if (state.phase !== 'setup') return;
+            const isP1 = currentUser.uid === roomData.p1?.uid;
+            if (!isBotMode && (isP1 ? state.p1Ready : state.p2Ready)) return; // sudah READY, kunci formasi
 
-            if (isP1) {
-                if (state.p1Ships.includes(id)) state.p1Ships = state.p1Ships.filter(s => s !== id);
-                else if (state.p1Ships.length < 4) state.p1Ships.push(id);
-            } else {
-                if (state.p2Ships.includes(id)) state.p2Ships = state.p2Ships.filter(s => s !== id);
-                else if (state.p2Ships.length < 4) state.p2Ships.push(id);
-            }
-            updateGameUI();
+            const key = isP1 ? 'p1Ships' : 'p2Ships';
+            let ships = [...(state[key] || [])];
+            if (ships.includes(id)) ships = ships.filter(s => s !== id);
+            else if (ships.length < 4) ships.push(id);
+            // Tulis hanya formasi milik sendiri supaya tidak menimpa formasi lawan
+            await syncRoomState({ [`gameState.${key}`]: ships });
         };
 
-        window.readySeaBattle = () => {
+        window.readySeaBattle = async () => {
             AudioEngine.playSelect();
-            if (!currentRoomId) return;
-            const isP1 = currentUser.uid === roomData?.p1?.uid;
-            let state = roomData.gameState;
+            if (!currentRoomId || !roomData) return;
+            const state = roomData.gameState;
+            if (state.phase !== 'setup') return;
+            const isP1 = currentUser.uid === roomData.p1?.uid;
+            const myShips = (isP1 ? state.p1Ships : state.p2Ships) || [];
+            if (myShips.length !== 4) return;
 
             if (isBotMode) {
                 // Bot random ships
-                while (state.p2Ships.length < 4) {
+                const botShips = [...(state.p2Ships || [])];
+                while (botShips.length < 4) {
                     const rId = `${Math.floor(Math.random() * 8)}-${Math.floor(Math.random() * 8)}`;
-                    if (!state.p2Ships.includes(rId)) state.p2Ships.push(rId);
+                    if (!botShips.includes(rId)) botShips.push(rId);
                 }
-                state.phase = 'play';
-                updateGameUI();
-            } else {
-                // Not fully implemented for multiplayer brevity
-                state.phase = 'play';
-                updateGameUI();
+                await syncRoomState({ 'gameState.p2Ships': botShips, 'gameState.phase': 'play' });
+                return;
             }
+
+            // Multiplayer: tandai READY milik sendiri; fase 'play' dimulai bila kedua pemain siap
+            // (host juga memeriksa ulang di updateSeaBattleUI untuk menghindari race condition)
+            const otherReady = isP1 ? state.p2Ready : state.p1Ready;
+            const fields = { [`gameState.${isP1 ? 'p1Ready' : 'p2Ready'}`]: true };
+            if (otherReady) fields['gameState.phase'] = 'play';
+            await syncRoomState(fields);
         };
 
-        window.fireSeaBattle = (id) => {
+        window.fireSeaBattle = async (id) => {
             AudioEngine.playClick();
-            if (!currentRoomId) return;
-            let state = roomData.gameState;
+            if (!currentRoomId || !roomData) return;
+            const state = roomData.gameState;
+            if (state.phase !== 'play' || state.winner) return;
+            const isP1 = currentUser.uid === roomData.p1?.uid;
+            const me = isP1 ? 'p1' : 'p2';
+            const enemy = isP1 ? 'p2' : 'p1';
+            if (state.turn !== me) return;
 
-            if (isBotMode && state.turn === 'p1') {
-                state.p1Guesses.push(id);
-                if (state.p2Ships.includes(id)) AudioEngine.playWin();
+            const myGuesses = [...(state[`${me}Guesses`] || [])];
+            if (myGuesses.includes(id)) return;
+            myGuesses.push(id);
 
-                // Check win
-                const p1Hits = state.p2Ships.filter(s => state.p1Guesses.includes(s)).length;
-                if (p1Hits === 4) { state.winner = 'p1'; updateGameUI(); return; }
+            const enemyShips = state[`${enemy}Ships`] || [];
+            if (enemyShips.includes(id)) AudioEngine.playWin();
 
-                state.turn = 'p2';
-                updateGameUI();
+            const hits = enemyShips.filter(s => myGuesses.includes(s)).length;
+            const fields = { [`gameState.${me}Guesses`]: myGuesses };
+            if (hits === 4) {
+                fields['gameState.winner'] = me;
+                fields[`${me}.score`] = (roomData[me]?.score || 0) + 1;
+                addXP(40);
+            } else {
+                fields['gameState.turn'] = enemy;
+            }
+            await syncRoomState(fields);
 
-                setTimeout(() => {
-                    let botState = roomData.gameState;
+            if (isBotMode && !fields['gameState.winner']) {
+                setTimeout(async () => {
+                    const bs = roomData && roomData.gameState;
+                    if (!bs || bs.winner || bs.turn !== 'p2') return;
+                    const guesses = [...(bs.p2Guesses || [])];
                     let rId;
                     do {
                         rId = `${Math.floor(Math.random() * 8)}-${Math.floor(Math.random() * 8)}`;
-                    } while (botState.p2Guesses.includes(rId));
-                    botState.p2Guesses.push(rId);
+                    } while (guesses.includes(rId));
+                    guesses.push(rId);
 
-                    const p2Hits = botState.p1Ships.filter(s => botState.p2Guesses.includes(s)).length;
-                    if (p2Hits === 4) { botState.winner = 'p2'; }
-                    else botState.turn = 'p1';
-                    updateGameUI();
+                    const p2Hits = (bs.p1Ships || []).filter(s => guesses.includes(s)).length;
+                    const botFields = { 'gameState.p2Guesses': guesses };
+                    if (p2Hits === 4) {
+                        botFields['gameState.winner'] = 'p2';
+                        botFields['p2.score'] = (roomData.p2?.score || 0) + 1;
+                    } else {
+                        botFields['gameState.turn'] = 'p1';
+                    }
+                    await syncRoomState(botFields);
                 }, 1000);
             }
         };
@@ -4351,18 +4488,26 @@
             board.appendChild(home);
         };
 
-        window.rollLudoDice = () => {
+        window.rollLudoDice = async () => {
             AudioEngine.playClick();
-            if (!currentRoomId) return;
-            let state = roomData.gameState;
-            state.diceValue = Math.floor(Math.random() * 6) + 1;
-            updateGameUI();
+            if (!currentRoomId || !roomData) return;
+            const state = roomData.gameState;
+            if (state.winner || state.diceValue) return;
+            const isP1 = currentUser.uid === roomData.p1?.uid;
+            if (state.turn !== (isP1 ? 'p1' : 'p2')) return;
+            // Hanya field dadu yang ditulis, agar tidak menimpa state lain di Firebase
+            await syncRoomState({ 'gameState.diceValue': Math.floor(Math.random() * 6) + 1 });
         };
 
-        window.moveLudoPiece = (player) => {
+        window.moveLudoPiece = async (player) => {
             AudioEngine.playSelect();
-            if (!currentRoomId) return;
-            let state = roomData.gameState;
+            if (!currentRoomId || !roomData) return;
+            const state = JSON.parse(JSON.stringify(roomData.gameState));
+            if (state.winner || !state.diceValue || state.turn !== player) return;
+            if (!isBotMode) {
+                const isP1 = currentUser.uid === roomData.p1?.uid;
+                if (player !== (isP1 ? 'p1' : 'p2')) return; // hanya boleh menggerakkan bidak sendiri
+            }
 
             if (player === 'p1') {
                 state.p1Pos += state.diceValue;
@@ -4381,19 +4526,24 @@
                 }
                 state.diceValue = null;
                 state.turn = player === 'p1' ? 'p2' : 'p1';
-
-                if (isBotMode && state.turn === 'p2') {
-                    setTimeout(() => {
-                        let botState = roomData.gameState;
-                        botState.diceValue = Math.floor(Math.random() * 6) + 1;
-                        updateGameUI();
-                        setTimeout(() => {
-                            window.moveLudoPiece('p2');
-                        }, 1000);
-                    }, 1000);
-                }
             }
-            updateGameUI();
+
+            const fields = { gameState: state };
+            if (state.winner) {
+                fields[`${state.winner}.score`] = (roomData[state.winner]?.score || 0) + 1;
+                if ((state.winner === 'p1') === (currentUser.uid === roomData.p1?.uid)) addXP(30);
+            }
+            await syncRoomState(fields);
+
+            if (isBotMode && !state.winner && state.turn === 'p2') {
+                setTimeout(async () => {
+                    if (!roomData || roomData.currentGame !== 'ludo') return;
+                    const bs = roomData.gameState;
+                    if (bs.winner || bs.turn !== 'p2') return;
+                    await syncRoomState({ 'gameState.diceValue': Math.floor(Math.random() * 6) + 1 });
+                    setTimeout(() => window.moveLudoPiece('p2'), 1000);
+                }, 1000);
+            }
         };
 
         // --- 13. EMOTES & CHAT COMMS ---
@@ -4970,6 +5120,538 @@
             } else {
                 await syncRoomState({ 'gameState.ropePos': newPos });
             }
+        };
+
+        // --- 13.7 3D GAMES (Three.js): AIR HOCKEY & HEXA-FALL ---
+        const ghClamp = (v, a, b) => Math.max(a, Math.min(b, v));
+        const sfx = (name) => { try { if (AudioEngine && AudioEngine[name]) AudioEngine[name](); } catch (e) { } };
+        const addAdditive = (color, opacity) => new THREE.MeshBasicMaterial({ color, transparent: true, opacity, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide });
+        const makeStars = (count, minR, maxR, minY, maxY) => {
+            const pts = [];
+            for (let i = 0; i < count; i++) {
+                const r = minR + Math.random() * (maxR - minR), th = Math.random() * Math.PI * 2;
+                pts.push(Math.cos(th) * r, minY + Math.random() * (maxY - minY), Math.sin(th) * r);
+            }
+            const g = new THREE.BufferGeometry();
+            g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+            return new THREE.Points(g, new THREE.PointsMaterial({ color: 0x9ad0ff, size: 0.2, transparent: true, opacity: 0.75 }));
+        };
+
+        // ======== GAME: 3D CYBERNEON AIR HOCKEY ========
+        // Host = otoritas fisika puck. Tiap pemain menulis posisi paddle-nya; host menulis puck + skor ke gameState.
+        const AH = {
+            inst: null, sid: null, seatP1: null,
+            W: 8, L: 14, PR: 0.32, PADR: 0.62, PADZ: 5.6, GOAL: 1.75, TARGET: 5,
+            pad: { x: 0, tx: 0 }, opp: { x: 0 }, ai: { x: 0 }, prev: { p1: 0, p2: 0 },
+            puck: { x: 0, z: 0, vx: 0, vz: 0 }, rp: null, pauseUntil: 0, serveDir: 1,
+            lastWrite: 0, lastSentX: null, lastSfx: 0, goals: [0, 0],
+            over: false, endSounded: false, shake: 0, flash: 0
+        };
+
+        const ahSeat = (isP1) => {
+            const c = AH.inst.camera;
+            c.position.set(0, 13, isP1 ? 10.5 : -10.5);
+            c.lookAt(0, 0, isP1 ? 0.8 : -0.8);
+            c.updateMatrixWorld();
+            AH.seatP1 = isP1;
+        };
+
+        const ahBuild = () => {
+            const canvas = document.getElementById('ah3d-canvas');
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            renderer.setClearColor(0x03020a, 1);
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x03020a, 0.022);
+            const camera = new THREE.PerspectiveCamera(55, 3 / 4, 0.1, 120);
+            scene.add(new THREE.AmbientLight(0x6a6aa0, 0.9));
+            const topLight = new THREE.PointLight(0xffffff, 0.9, 60); topLight.position.set(0, 14, 0); scene.add(topLight);
+            const puckLight = new THREE.PointLight(0xffb800, 1.4, 7); scene.add(puckLight);
+
+            // Texture permukaan meja (grid + garis tengah + busur gawang), 64px per unit
+            const tc = document.createElement('canvas'); tc.width = 512; tc.height = 896;
+            const g = tc.getContext('2d');
+            g.fillStyle = '#070b1f'; g.fillRect(0, 0, 512, 896);
+            g.strokeStyle = 'rgba(0,240,255,0.10)'; g.lineWidth = 2;
+            for (let i = 0; i <= 8; i++) { g.beginPath(); g.moveTo(i * 64, 0); g.lineTo(i * 64, 896); g.stroke(); }
+            for (let i = 0; i <= 14; i++) { g.beginPath(); g.moveTo(0, i * 64); g.lineTo(512, i * 64); g.stroke(); }
+            g.lineWidth = 6; g.shadowBlur = 18;
+            g.strokeStyle = '#a855f7'; g.shadowColor = '#a855f7';
+            g.beginPath(); g.moveTo(0, 448); g.lineTo(512, 448); g.stroke();
+            g.beginPath(); g.arc(256, 448, 86, 0, Math.PI * 2); g.stroke();
+            g.strokeStyle = '#ff2e93'; g.shadowColor = '#ff2e93';
+            g.beginPath(); g.arc(256, 0, 130, 0, Math.PI); g.stroke();
+            g.strokeStyle = '#00f0ff'; g.shadowColor = '#00f0ff';
+            g.beginPath(); g.arc(256, 896, 130, Math.PI, Math.PI * 2); g.stroke();
+            const surface = new THREE.Mesh(new THREE.PlaneGeometry(AH.W, AH.L),
+                new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(tc), roughness: 0.25, metalness: 0.4 }));
+            surface.rotation.x = -Math.PI / 2; surface.position.y = 0.01; scene.add(surface);
+            const base = new THREE.Mesh(new THREE.BoxGeometry(AH.W + 0.9, 0.6, AH.L + 0.9),
+                new THREE.MeshStandardMaterial({ color: 0x0b0f26, metalness: 0.7, roughness: 0.4 }));
+            base.position.y = -0.31; scene.add(base);
+
+            // Rel neon
+            const addRail = (w, h, d, x, z, color) => {
+                const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshBasicMaterial({ color }));
+                m.position.set(x, h / 2, z); scene.add(m);
+                const gl = new THREE.Mesh(new THREE.BoxGeometry(w + 0.25, h * 1.6, d + 0.25), addAdditive(color, 0.2));
+                gl.position.set(x, h / 2, z); scene.add(gl);
+            };
+            const CY = 0x00f0ff, PK = 0xff2e93;
+            [-1, 1].forEach(sx => {
+                addRail(0.16, 0.34, AH.L / 2, sx * (AH.W / 2 + 0.08), AH.L / 4, CY);
+                addRail(0.16, 0.34, AH.L / 2, sx * (AH.W / 2 + 0.08), -AH.L / 4, PK);
+            });
+            const segW = AH.W / 2 - AH.GOAL, segC = (AH.W / 2 + AH.GOAL) / 2;
+            [-1, 1].forEach(sx => {
+                addRail(segW, 0.34, 0.16, sx * segC, AH.L / 2 + 0.08, CY);
+                addRail(segW, 0.34, 0.16, sx * segC, -AH.L / 2 - 0.08, PK);
+            });
+            [AH.L / 2 + 0.08, -AH.L / 2 - 0.08].forEach((z, i) => {
+                const bar = new THREE.Mesh(new THREE.BoxGeometry(AH.GOAL * 2, 0.06, 0.1), new THREE.MeshBasicMaterial({ color: i === 0 ? CY : PK }));
+                bar.position.set(0, 0.04, z); scene.add(bar);
+            });
+
+            const puck = new THREE.Mesh(new THREE.CylinderGeometry(AH.PR, AH.PR, 0.16, 28),
+                new THREE.MeshStandardMaterial({ color: 0xfff2a8, emissive: 0xffb800, emissiveIntensity: 1.2 }));
+            puck.position.y = 0.1; scene.add(puck);
+            const puckHalo = new THREE.Mesh(new THREE.RingGeometry(AH.PR, AH.PR * 2.1, 32), addAdditive(0xffb800, 0.4));
+            puckHalo.rotation.x = -Math.PI / 2; puckHalo.position.y = 0.03; scene.add(puckHalo);
+
+            const mkPad = (color) => {
+                const grp = new THREE.Group();
+                const body = new THREE.Mesh(new THREE.CylinderGeometry(AH.PADR, AH.PADR * 1.08, 0.28, 32),
+                    new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.55, metalness: 0.6, roughness: 0.3 }));
+                body.position.y = 0.14;
+                const knob = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.28, 0.4, 20),
+                    new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: color, emissiveIntensity: 0.9 }));
+                knob.position.y = 0.46;
+                const halo = new THREE.Mesh(new THREE.RingGeometry(AH.PADR, AH.PADR * 1.9, 40), addAdditive(color, 0.35));
+                halo.rotation.x = -Math.PI / 2; halo.position.y = 0.03;
+                grp.add(body, knob, halo); scene.add(grp);
+                return grp;
+            };
+            const pad1 = mkPad(CY), pad2 = mkPad(PK);
+            scene.add(makeStars(260, 30, 80, 4, 34));
+
+            // Kontrol: raycast pointer ke bidang meja -> posisi X dunia (otomatis benar utk kamera P1 maupun P2)
+            const ray = new THREE.Raycaster(), plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0), hit = new THREE.Vector3();
+            const onPtr = (e) => {
+                if (AH.over) return;
+                const r = canvas.getBoundingClientRect(); if (!r.width) return;
+                camera.updateMatrixWorld();
+                ray.setFromCamera({ x: ((e.clientX - r.left) / r.width) * 2 - 1, y: -((e.clientY - r.top) / r.height) * 2 + 1 }, camera);
+                if (ray.ray.intersectPlane(plane, hit)) AH.pad.tx = ghClamp(hit.x, -(AH.W / 2 - AH.PADR), AH.W / 2 - AH.PADR);
+            };
+            canvas.style.touchAction = 'none';
+            canvas.addEventListener('pointermove', onPtr);
+            canvas.addEventListener('pointerdown', (e) => { try { canvas.setPointerCapture(e.pointerId); } catch (_) { } onPtr(e); });
+
+            AH.inst = { renderer, scene, camera, canvas, puck, puckHalo, puckLight, pad1, pad2, topLight, last: performance.now(), w: 0, h: 0, raf: 0 };
+            AH.inst.raf = requestAnimationFrame(ahLoop);
+        };
+
+        const ahResetLocal = (st, isP1) => {
+            AH.sid = st.sid; AH.over = false; AH.endSounded = false;
+            AH.goals = [st.p1Goals || 0, st.p2Goals || 0];
+            AH.pad.x = AH.pad.tx = 0; AH.opp.x = 0; AH.ai.x = 0; AH.prev = { p1: 0, p2: 0 }; AH.rp = null;
+            AH.puck = { x: 0, z: 0, vx: 0, vz: 0 };
+            AH.serveDir = Math.random() < 0.5 ? 1 : -1;
+            AH.pauseUntil = performance.now() + 1500;
+            AH.lastSentX = null; AH.shake = 0; AH.flash = 0;
+            ahSeat(isP1);
+        };
+
+        const ahGoal = (scorer, st) => {
+            const g1 = (st.p1Goals || 0) + (scorer === 'p1' ? 1 : 0);
+            const g2 = (st.p2Goals || 0) + (scorer === 'p2' ? 1 : 0);
+            AH.puck = { x: 0, z: 0, vx: 0, vz: 0 };
+            AH.pauseUntil = performance.now() + 1300;
+            AH.serveDir = scorer === 'p1' ? -1 : 1; // servis ke arah pemain yang kebobolan
+            const fields = { 'gameState.p1Goals': g1, 'gameState.p2Goals': g2, 'gameState.puck': { x: 0, z: 0, vx: 0, vz: 0, t: Date.now() } };
+            if (g1 >= AH.TARGET || g2 >= AH.TARGET) {
+                const w = g1 >= AH.TARGET ? 'p1' : 'p2';
+                fields['gameState.winner'] = w;
+                fields[`${w}.score`] = (roomData[w]?.score || 0) + 1;
+                AH.over = true;
+            }
+            syncRoomState(fields);
+        };
+
+        const ahSimulate = (dt, now, p1x, p2x, p1v, p2v, st) => {
+            const p = AH.puck;
+            if (now < AH.pauseUntil) return;
+            if (p.vx === 0 && p.vz === 0) { p.vx = (Math.random() - 0.5) * 3; p.vz = AH.serveDir * 6.5; }
+            const sub = 2, h = dt / sub;
+            for (let s = 0; s < sub; s++) {
+                p.x += p.vx * h; p.z += p.vz * h;
+                const fr = Math.max(0, 1 - 0.12 * h); p.vx *= fr; p.vz *= fr;
+                const lx = AH.W / 2 - AH.PR;
+                if (p.x > lx) { p.x = lx; p.vx = -Math.abs(p.vx) * 0.97; }
+                else if (p.x < -lx) { p.x = -lx; p.vx = Math.abs(p.vx) * 0.97; }
+                const ez = AH.L / 2 - AH.PR;
+                if (Math.abs(p.z) > ez) {
+                    if (Math.abs(p.x) < AH.GOAL - AH.PR * 0.4) {
+                        if (Math.abs(p.z) > AH.L / 2 + AH.PR * 1.2) { ahGoal(p.z > 0 ? 'p2' : 'p1', st); return; }
+                    } else {
+                        const sgn = Math.sign(p.z);
+                        p.z = sgn * ez; p.vz = -sgn * Math.abs(p.vz) * 0.97;
+                    }
+                }
+                const pads = [[p1x, AH.PADZ, p1v], [p2x, -AH.PADZ, p2v]];
+                for (const [px, pz, pv] of pads) {
+                    const dx = p.x - px, dz = p.z - pz, d = Math.hypot(dx, dz), md = AH.PADR + AH.PR;
+                    if (d < md && d > 1e-4) {
+                        const nx = dx / d, nz = dz / d;
+                        p.x = px + nx * md; p.z = pz + nz * md;
+                        let rvx = p.vx - pv, rvz = p.vz;
+                        const vn = rvx * nx + rvz * nz;
+                        if (vn < 0) {
+                            rvx -= 2 * vn * nx; rvz -= 2 * vn * nz;
+                            p.vx = rvx * 1.04 + pv; p.vz = rvz * 1.04;
+                            if (now - AH.lastSfx > 90) { AH.lastSfx = now; sfx('playTick'); }
+                        }
+                    }
+                }
+                const sp = Math.hypot(p.vx, p.vz);
+                if (sp > 17) { p.vx *= 17 / sp; p.vz *= 17 / sp; }
+                else if (sp > 0 && sp < 3.5) { p.vx *= 3.5 / sp; p.vz *= 3.5 / sp; }
+            }
+        };
+
+        function ahLoop(now) {
+            const I = AH.inst;
+            I.raf = requestAnimationFrame(ahLoop);
+            if (!I.canvas.offsetParent) { I.last = now; return; }
+            const w = I.canvas.clientWidth, h = I.canvas.clientHeight;
+            if (w && (I.w !== w || I.h !== h)) {
+                I.w = w; I.h = h; I.renderer.setSize(w, h, false);
+                I.camera.aspect = w / h; I.camera.updateProjectionMatrix();
+            }
+            const dt = Math.min(Math.max((now - I.last) / 1000, 0.001), 0.033); I.last = now;
+            const st = (roomData && roomData.currentGame === 'airhockey3d') ? roomData.gameState : null;
+            if (!st || !roomData.p1 || AH.sid !== st.sid) { I.renderer.render(I.scene, I.camera); return; }
+            const isP1 = currentUser.uid === roomData.p1.uid;
+            const lim = AH.W / 2 - AH.PADR;
+
+            AH.pad.x += ghClamp(AH.pad.tx - AH.pad.x, -34 * dt, 34 * dt);
+            let oppTarget;
+            if (isBotMode) {
+                // AI Bot (P2): mengikuti puck dengan kecepatan terbatas agar masih bisa dikalahkan
+                const p = AH.puck;
+                const tgt = (p.vz < 0 || p.z < 0) ? p.x + Math.sin(now / 650) * 0.5 : 0;
+                AH.ai.x += ghClamp(ghClamp(tgt, -lim, lim) - AH.ai.x, -6 * dt, 6 * dt);
+                oppTarget = AH.ai.x;
+            } else {
+                oppTarget = ghClamp((isP1 ? st.p2PadX : st.p1PadX) || 0, -lim, lim);
+            }
+            AH.opp.x += ghClamp(oppTarget - AH.opp.x, -40 * dt, 40 * dt);
+            const p1x = isP1 ? AH.pad.x : AH.opp.x, p2x = isP1 ? AH.opp.x : AH.pad.x;
+            const p1v = (p1x - AH.prev.p1) / dt, p2v = (p2x - AH.prev.p2) / dt;
+            AH.prev.p1 = p1x; AH.prev.p2 = p2x;
+
+            if (isHost) {
+                if (!st.winner && !AH.over) ahSimulate(dt, now, p1x, p2x, p1v, p2v, st);
+            } else if (st.puck) {
+                // Tamu: interpolasi + ekstrapolasi puck dari snapshot host
+                if (!AH.rp || AH.rp.t !== st.puck.t) AH.rp = { x: st.puck.x, z: st.puck.z, vx: st.puck.vx, vz: st.puck.vz, t: st.puck.t, at: now };
+                const age = Math.min((now - AH.rp.at) / 1000, 0.3);
+                let tx = AH.rp.x + AH.rp.vx * age;
+                const tz = ghClamp(AH.rp.z + AH.rp.vz * age, -AH.L / 2 - 1, AH.L / 2 + 1);
+                const lx = AH.W / 2 - AH.PR;
+                if (tx > lx) tx = 2 * lx - tx; if (tx < -lx) tx = -2 * lx - tx;
+                AH.puck.x += (tx - AH.puck.x) * 0.45; AH.puck.z += (tz - AH.puck.z) * 0.45;
+            }
+
+            // Sinkronisasi throttled (~9x/detik) agar tidak membebani Firebase
+            if (!isBotMode && !st.winner && now - AH.lastWrite > 110) {
+                AH.lastWrite = now;
+                const f = {};
+                const mx = Math.round(AH.pad.x * 100) / 100;
+                if (mx !== AH.lastSentX) { f[isP1 ? 'gameState.p1PadX' : 'gameState.p2PadX'] = mx; AH.lastSentX = mx; }
+                if (isHost) {
+                    const r2 = (v) => Math.round(v * 100) / 100;
+                    f['gameState.puck'] = { x: r2(AH.puck.x), z: r2(AH.puck.z), vx: r2(AH.puck.vx), vz: r2(AH.puck.vz), t: Date.now() };
+                }
+                if (Object.keys(f).length) syncRoomState(f);
+            }
+
+            I.pad1.position.set(p1x, 0, AH.PADZ); I.pad2.position.set(p2x, 0, -AH.PADZ);
+            I.puck.position.set(AH.puck.x, 0.1, AH.puck.z);
+            I.puckHalo.position.set(AH.puck.x, 0.03, AH.puck.z);
+            I.puckLight.position.set(AH.puck.x, 1.2, AH.puck.z);
+            I.topLight.intensity = 0.9 + AH.flash * 2.2; AH.flash = Math.max(0, AH.flash - dt * 2.5);
+            I.camera.position.x = AH.shake > 0 ? (Math.random() - 0.5) * AH.shake * 0.6 : 0; AH.shake = Math.max(0, AH.shake - dt * 3);
+            I.renderer.render(I.scene, I.camera);
+        }
+
+        const updateAirHockey3DUI = (state, isP1) => {
+            const statusEl = document.getElementById('ah3d-status');
+            if (typeof THREE === 'undefined') { statusEl.innerText = 'Three.js gagal dimuat (cek koneksi)'; return; }
+            if (!AH.inst) { try { ahBuild(); } catch (e) { console.error('AirHockey build', e); statusEl.innerText = 'WebGL tidak tersedia'; return; } }
+            if (AH.sid !== state.sid) ahResetLocal(state, isP1);
+            else if (AH.seatP1 !== isP1) ahSeat(isP1);
+
+            const g1 = state.p1Goals || 0, g2 = state.p2Goals || 0;
+            if (g1 + g2 > AH.goals[0] + AH.goals[1]) {
+                AH.flash = 1; AH.shake = 1;
+                const iScored = (g1 > AH.goals[0]) === isP1;
+                sfx(iScored ? 'playSelect' : 'playLose');
+            }
+            AH.goals = [g1, g2];
+            const e1 = document.getElementById('ah3d-p1-goals'), e2 = document.getElementById('ah3d-p2-goals');
+            if (e1.innerText !== String(g1)) e1.innerText = g1;
+            if (e2.innerText !== String(g2)) e2.innerText = g2;
+
+            let txt;
+            if (state.winner) {
+                const won = state.winner === (isP1 ? 'p1' : 'p2');
+                txt = won ? 'YOU WIN! 🏆' : 'YOU LOSE!';
+                if (!AH.endSounded) { AH.endSounded = true; AH.over = true; if (won) { sfx('playWin'); addXP(40); } else sfx('playLose'); }
+            } else txt = `Geser kiri-kanan! Target ${AH.TARGET} gol`;
+            if (statusEl.innerText !== txt) statusEl.innerText = txt;
+        };
+
+        // ======== GAME: 3D HEXA-FALL SURVIVAL ========
+        // 36 hexagon (6x6, layout odd-r). Pijakan yang diinjak jadi merah & jatuh setelah 1 detik. Yang jatuh duluan kalah.
+        const HF = {
+            inst: null, sid: null, seatP1: null, COLS: 6, ROWS: 6, S: 1.15, SQ3: Math.sqrt(3),
+            seen: {}, lastMove: 0, reported: false, endSounded: false, botAt: 0, listeners: false
+        };
+        const HF_FLIP = { E: 'W', W: 'E', NE: 'SW', SW: 'NE', NW: 'SE', SE: 'NW' };
+        const hfNb = (c, r, dir) => {
+            const odd = r & 1;
+            const t = { E: [1, 0], W: [-1, 0], NE: odd ? [1, -1] : [0, -1], NW: odd ? [0, -1] : [-1, -1], SE: odd ? [1, 1] : [0, 1], SW: odd ? [0, 1] : [-1, 1] }[dir];
+            return [c + t[0], r + t[1]];
+        };
+        const hfPos = (c, r) => [
+            HF.S * HF.SQ3 * (c + 0.5 * (r & 1)) - HF.S * HF.SQ3 * 2.75,
+            HF.S * 1.5 * r - HF.S * 1.5 * 2.5
+        ];
+        const hfId = (c, r) => `t${c}_${r}`;
+        const hfInBounds = (c, r) => c >= 0 && c < HF.COLS && r >= 0 && r < HF.ROWS;
+
+        const hfSeat = (isP1) => {
+            const c = HF.inst.camera;
+            c.position.set(0, 12.5, isP1 ? 9.5 : -9.5);
+            c.lookAt(0, 0, isP1 ? 0.3 : -0.3);
+            c.updateMatrixWorld();
+            HF.seatP1 = isP1;
+        };
+
+        const hfBuild = () => {
+            const canvas = document.getElementById('hf3d-canvas');
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            renderer.setClearColor(0x02010a, 1);
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x02010a, 0.02);
+            const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 140);
+            scene.add(new THREE.AmbientLight(0x7070b0, 0.85));
+            const dl = new THREE.DirectionalLight(0xffffff, 0.8); dl.position.set(5, 12, 6); scene.add(dl);
+            const lc = new THREE.PointLight(0x00f0ff, 1.2, 30); lc.position.set(-9, 5, 0); scene.add(lc);
+            const lp = new THREE.PointLight(0xff2e93, 1.2, 30); lp.position.set(9, 5, 0); scene.add(lp);
+
+            const geo = new THREE.CylinderGeometry(HF.S * 0.96, HF.S * 0.96, 0.5, 6);
+            const edgeGeo = new THREE.EdgesGeometry(geo);
+            const tiles = [];
+            for (let r = 0; r < HF.ROWS; r++) {
+                for (let c = 0; c < HF.COLS; c++) {
+                    const mat = new THREE.MeshStandardMaterial({ color: 0x1a2a6c, emissive: 0x0a3a8a, emissiveIntensity: 0.6, metalness: 0.5, roughness: 0.35 });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    const [x, z] = hfPos(c, r);
+                    mesh.position.set(x, 0, z);
+                    mesh.add(new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({ color: 0x00f0ff })));
+                    scene.add(mesh);
+                    tiles.push({ id: hfId(c, r), c, r, mesh, mat, y: 0, vy: 0 });
+                }
+            }
+
+            // Karakter: P1 = bola, P2 = kapsul (silinder + 2 bola)
+            const p1Mesh = new THREE.Mesh(new THREE.SphereGeometry(0.42, 24, 18),
+                new THREE.MeshStandardMaterial({ color: 0x00f0ff, emissive: 0x00f0ff, emissiveIntensity: 0.9 }));
+            const p1Glow = new THREE.PointLight(0x00f0ff, 1.1, 5); p1Mesh.add(p1Glow);
+            scene.add(p1Mesh);
+            const capMat = new THREE.MeshStandardMaterial({ color: 0xff2e93, emissive: 0xff2e93, emissiveIntensity: 0.9 });
+            const p2Mesh = new THREE.Group();
+            const capBody = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.5, 20), capMat);
+            const capTop = new THREE.Mesh(new THREE.SphereGeometry(0.32, 20, 14), capMat); capTop.position.y = 0.25;
+            const capBot = new THREE.Mesh(new THREE.SphereGeometry(0.32, 20, 14), capMat); capBot.position.y = -0.25;
+            p2Mesh.add(capBody, capTop, capBot, new THREE.PointLight(0xff2e93, 1.1, 5));
+            scene.add(p2Mesh);
+
+            scene.add(makeStars(320, 25, 70, -12, 30));
+            const abyss = new THREE.Mesh(new THREE.CircleGeometry(40, 48), addAdditive(0x5a00ff, 0.12));
+            abyss.rotation.x = -Math.PI / 2; abyss.position.y = -10; scene.add(abyss);
+
+            HF.inst = {
+                renderer, scene, camera, canvas, tiles, last: performance.now(), w: 0, h: 0, raf: 0,
+                pl: { p1: { mesh: p1Mesh, x: 0, y: 0, z: 0, vy: 0, base: 0.67 }, p2: { mesh: p2Mesh, x: 0, y: 0, z: 0, vy: 0, base: 0.82 } }
+            };
+
+            if (!HF.listeners) {
+                HF.listeners = true;
+                document.getElementById('hf3d-dpad').addEventListener('pointerdown', (e) => {
+                    const b = e.target.closest('button[data-hf]'); if (!b) return;
+                    e.preventDefault(); hfMove(b.dataset.hf);
+                });
+                const keyMap = { q: 'NW', e: 'NE', a: 'W', d: 'E', z: 'SW', c: 'SE', arrowleft: 'W', arrowright: 'E' };
+                document.addEventListener('keydown', (e) => {
+                    const box = document.getElementById('game-hexafall3d');
+                    if (!box || box.classList.contains('hidden')) return;
+                    const tag = (e.target.tagName || '').toLowerCase();
+                    if (tag === 'input' || tag === 'textarea') return;
+                    const dir = keyMap[e.key.toLowerCase()];
+                    if (dir) { e.preventDefault(); hfMove(dir); }
+                });
+            }
+            HF.inst.raf = requestAnimationFrame(hfLoop);
+        };
+
+        const hfResetLocal = (st, isP1) => {
+            HF.sid = st.sid; HF.seen = {}; HF.reported = false; HF.endSounded = false;
+            HF.botAt = performance.now() + 1800; HF.lastMove = 0;
+            const I = HF.inst;
+            I.tiles.forEach(t => {
+                t.y = 0; t.vy = 0; t.mesh.visible = true; t.mesh.position.y = 0; t.mesh.rotation.set(0, 0, 0);
+                t.mat.color.setHex(0x1a2a6c); t.mat.emissive.setHex(0x0a3a8a); t.mat.emissiveIntensity = 0.6;
+            });
+            ['p1', 'p2'].forEach(k => {
+                const cell = st[k], pl = I.pl[k], [x, z] = hfPos(cell.c, cell.r);
+                pl.x = x; pl.z = z; pl.y = pl.base; pl.vy = 0;
+            });
+            hfSeat(isP1);
+        };
+
+        const hfReportLoss = (loser) => {
+            if (HF.reported || !roomData || roomData.gameState.winner) return;
+            HF.reported = true;
+            const w = loser === 'p1' ? 'p2' : 'p1';
+            syncRoomState({ 'gameState.winner': w, [`${w}.score`]: (roomData[w]?.score || 0) + 1 });
+        };
+
+        const hfMove = (dir) => {
+            if (!roomData || roomData.currentGame !== 'hexafall3d') return;
+            const st = roomData.gameState;
+            if (!st || st.winner || HF.sid !== st.sid) return;
+            const now = performance.now();
+            if (now - HF.lastMove < 300) return; // cooldown langkah
+            const isP1 = currentUser.uid === roomData.p1.uid;
+            const me = isP1 ? 'p1' : 'p2';
+            const cell = st[me]; if (!cell) return;
+            const logical = isP1 ? dir : HF_FLIP[dir]; // kamera P2 dibalik 180 derajat
+            const [nc, nr] = hfNb(cell.c, cell.r, logical);
+            if (!hfInBounds(nc, nr)) return;
+            HF.lastMove = now;
+            const id = hfId(nc, nr);
+            const f = { [`gameState.${me}`]: { c: nc, r: nr, n: (cell.n || 0) + 1 } };
+            if (!(st.tiles && st.tiles[id])) f[`gameState.tiles.${id}`] = Date.now();
+            sfx('playTick');
+            syncRoomState(f);
+        };
+
+        const hfBotMove = (st, now) => {
+            const cell = st.p2; let best = null, bestScore = -1e9;
+            const options = [];
+            ['E', 'W', 'NE', 'NW', 'SE', 'SW'].forEach(d => {
+                const [c, r] = hfNb(cell.c, cell.r, d);
+                if (!hfInBounds(c, r)) return;
+                const id = hfId(c, r), age = HF.seen[id] === undefined ? -1 : now - HF.seen[id];
+                if (age >= 1000) return; // jurang
+                let score = Math.random() * 2;
+                if (age >= 0) score -= 6; // sudah merah
+                else {
+                    score += 5;
+                    ['E', 'W', 'NE', 'NW', 'SE', 'SW'].forEach(d2 => {
+                        const [c2, r2] = hfNb(c, r, d2);
+                        if (hfInBounds(c2, r2) && HF.seen[hfId(c2, r2)] === undefined) score += 1;
+                    });
+                }
+                options.push({ c, r, id, score, age });
+                if (score > bestScore) { bestScore = score; best = { c, r, id, age }; }
+            });
+            if (!options.length) return;
+            if (Math.random() < 0.12) best = options[Math.floor(Math.random() * options.length)];
+            const f = { 'gameState.p2': { c: best.c, r: best.r, n: (cell.n || 0) + 1 } };
+            if (!(st.tiles && st.tiles[best.id])) f[`gameState.tiles.${best.id}`] = Date.now();
+            syncRoomState(f);
+        };
+
+        function hfLoop(now) {
+            const I = HF.inst;
+            I.raf = requestAnimationFrame(hfLoop);
+            if (!I.canvas.offsetParent) { I.last = now; return; }
+            const w = I.canvas.clientWidth, h = I.canvas.clientHeight;
+            if (w && (I.w !== w || I.h !== h)) {
+                I.w = w; I.h = h; I.renderer.setSize(w, h, false);
+                I.camera.aspect = w / h; I.camera.updateProjectionMatrix();
+            }
+            const dt = Math.min(Math.max((now - I.last) / 1000, 0.001), 0.05); I.last = now;
+            const st = (roomData && roomData.currentGame === 'hexafall3d') ? roomData.gameState : null;
+            if (!st || !roomData.p1 || HF.sid !== st.sid) { I.renderer.render(I.scene, I.camera); return; }
+            const isP1 = currentUser.uid === roomData.p1.uid;
+            const me = isP1 ? 'p1' : 'p2', other = isP1 ? 'p2' : 'p1';
+
+            // Catat kapan tiap pijakan pertama kali diinjak (waktu lokal -> bebas masalah selisih jam antar perangkat)
+            const tl = st.tiles || {};
+            for (const k in tl) if (HF.seen[k] === undefined) HF.seen[k] = now;
+            const ageOf = (id) => HF.seen[id] === undefined ? -1 : now - HF.seen[id];
+
+            I.tiles.forEach(t => {
+                const age = ageOf(t.id);
+                if (age < 0) return;
+                if (age < 1000) {
+                    const k = age / 1000, blink = 0.5 + 0.5 * Math.sin(now / 55);
+                    t.mat.color.setRGB(0.9, 0.12 * (1 - k), 0.12 * (1 - k));
+                    t.mat.emissive.setRGB(1, 0.08, 0.08); t.mat.emissiveIntensity = 0.6 + blink * 0.8 * k;
+                    t.mesh.position.y = Math.sin(now / 35) * 0.025 * k;
+                } else if (t.mesh.visible) {
+                    t.vy -= 22 * dt; t.y += t.vy * dt;
+                    t.mesh.position.y = t.y;
+                    t.mesh.rotation.x += dt * 0.9; t.mesh.rotation.z += dt * 0.6;
+                    if (t.y < -16) t.mesh.visible = false;
+                }
+            });
+
+            ['p1', 'p2'].forEach(k => {
+                const cell = st[k], pl = I.pl[k], [x, z] = hfPos(cell.c, cell.r);
+                const fallen = ageOf(hfId(cell.c, cell.r)) >= 1000;
+                if (!fallen) {
+                    pl.x += (x - pl.x) * Math.min(1, dt * 14); pl.z += (z - pl.z) * Math.min(1, dt * 14);
+                    pl.vy = 0; pl.y = pl.base + 0.06 * Math.sin(now / 180 + (k === 'p1' ? 0 : 2));
+                } else {
+                    pl.vy -= 22 * dt; pl.y += pl.vy * dt;
+                }
+                pl.mesh.position.set(pl.x, pl.y, pl.z);
+            });
+
+            if (!st.winner && !HF.reported) {
+                if (ageOf(hfId(st[me].c, st[me].r)) >= 1000) hfReportLoss(me); // saya jatuh
+                else if (isHost && ageOf(hfId(st[other].c, st[other].r)) >= (isBotMode ? 1000 : 1400)) hfReportLoss(other); // host memastikan lawan yg jatuh tercatat
+            }
+            if (isHost && isBotMode && !st.winner && now >= HF.botAt) {
+                HF.botAt = now + 650 + Math.random() * 350;
+                hfBotMove(st, now);
+            }
+
+            I.renderer.render(I.scene, I.camera);
+        }
+
+        const updateHexaFall3DUI = (state, isP1) => {
+            const statusEl = document.getElementById('hf3d-status');
+            if (typeof THREE === 'undefined') { statusEl.innerText = 'Three.js gagal dimuat (cek koneksi)'; return; }
+            if (!HF.inst) { try { hfBuild(); } catch (e) { console.error('HexaFall build', e); statusEl.innerText = 'WebGL tidak tersedia'; return; } }
+            if (HF.sid !== state.sid) hfResetLocal(state, isP1);
+            else if (HF.seatP1 !== isP1) hfSeat(isP1);
+
+            let txt;
+            if (state.winner) {
+                const won = state.winner === (isP1 ? 'p1' : 'p2');
+                txt = won ? 'LAWAN JATUH! YOU WIN! 🏆' : 'KAMU JATUH KE JURANG!';
+                if (!HF.endSounded) { HF.endSounded = true; if (won) { sfx('playWin'); addXP(40); } else sfx('playLose'); }
+            } else txt = 'Gerak terus! Pijakan merah jatuh 1 detik';
+            if (statusEl.innerText !== txt) statusEl.innerText = txt;
+            document.getElementById('hf3d-dpad').style.opacity = state.winner ? '0.4' : '1';
         };
 
         // --- 14. STATS & HELP MODALS ---
